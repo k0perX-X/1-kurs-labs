@@ -20,6 +20,7 @@ namespace Лаба_3
             const decimal nk = 10;
             const decimal k = 10;
             const decimal e = 0.0001m;
+            Console.WriteLine("┌─────────┬─────────────────────────────────────┬─────────────────────────────────────┬────────────────────────┐");
             for (decimal x = (b - a) / k; x <= b; x += (b - a) / k)
             {
                 decimal SE = 1, SN = 1;
@@ -38,8 +39,9 @@ namespace Лаба_3
                         SE += an;
                     }
                 }
-                Console.WriteLine($"X = {x} SN = {SN} SE = {SE} Y = {(1 + 2 * x * x) * (decimal)Math.Pow(Math.E, (double)(x * x))}");
+                Console.WriteLine($"│ X = {x} │ SN = {SN, -30} │ SE = {SE,-30} │ Y = {(1 + 2 * x * x) * (decimal)Math.Pow(Math.E, (double)(x * x))} │");
             }
+            Console.WriteLine("└─────────┴─────────────────────────────────────┴─────────────────────────────────────┴────────────────────────┘");
             Console.ReadKey();
         }
     }
