@@ -39,7 +39,7 @@ namespace Лаба_3
                         SE += an;
                     }
                 }
-                Console.WriteLine($"│ X = {x} │ SN = {SN, -30} │ SE = {SE,-30} │ Y = {(1 + 2 * x * x) * (decimal)Math.Pow(Math.E, (double)(x * x))} │");
+                Console.WriteLine($"│ X = {x} │ SN = {SN,-30} │ SE = {SE,-30} │ Y = {(1 + 2 * x * x) * (decimal)Math.Pow(Math.E, (double)(x * x))} │");
             }
             Console.WriteLine("└─────────┴─────────────────────────────────────┴─────────────────────────────────────┴────────────────────────┘");
             Console.ReadKey();
