@@ -7,10 +7,14 @@ namespace Лаба_4
     {
         public static Random rand = new Random();
 
-        private const int max =
-            //10;
+        public static int[] mas = new int[0];
+        public static bool sorted = false;
+
+        public const int max =
+            //0;
             int.MaxValue;
-        private const int min =
+
+        public const int min =
             //0;
             int.MinValue;
 
@@ -58,7 +62,7 @@ namespace Лаба_4
             return n;
         }
 
-        public static void VvodNK(ref int n, ref int k, ref int[] mas)
+        public static void VvodNK(ref int n, ref int k)
         {
             bool vihod = false;
             do
@@ -129,9 +133,7 @@ namespace Лаба_4
                 Console.WriteLine();
             }
             else
-            {
-                Console.WriteLine("Массив пустой");
-            }
+                if (skobka) Console.WriteLine("Массив пустой");
         }
 
         public static void Dobavit(ref int[] mas, int n, int k)
@@ -165,16 +167,20 @@ namespace Лаба_4
 
         public static int[] Poisk(int[] mas, int poisk, ref int количество_сравнений)
         {
-            int[] poiskmas = new int[mas.Length];
-            int j = 0;
-            for (int i = 0; i < mas.Length; i++)
+            if (!sorted)
             {
-                poiskmas[i] = -1;
-                if (mas[i] == poisk)
-                    poiskmas[j++] = i;
-                количество_сравнений++;
+                int[] poiskmas = new int[mas.Length];
+                int j = 0;
+                for (int i = 0; i < mas.Length; i++)
+                {
+                    poiskmas[i] = -1;
+                    if (mas[i] == poisk)
+                        poiskmas[j++] = i;
+                    количество_сравнений++;
+                }
+                return poiskmas.Where(i => i != -1).ToArray();
             }
-            return poiskmas.Where(i => i != -1).ToArray();
+            else return BinaryPoisk(mas, poisk, 0, mas.Length, ref количество_сравнений);
         }
 
         public static void Sort(ref int[] mas)
@@ -195,9 +201,143 @@ namespace Лаба_4
             }
         }
 
+        public static void Proverka(int[] m)
+        {
+            if (m.Length < 1)
+                throw new ArgumentNullException();
+        }
+
+        public static int[] BinaryPoisk(int[] array, int searchedValue, int left, int right, ref int количество_сравнений)
+        {
+            while (left <= right)
+            {
+                var middle = (left + right) / 2;
+                if (searchedValue == array[middle])
+                {
+                    количество_сравнений++;
+                    return new int[1] { middle };
+                }
+                else if (searchedValue < array[middle])
+                {
+                    количество_сравнений += 2;
+                    right = middle - 1;
+                }
+                else
+                    left = middle + 1;
+            }
+            return new int[0];
+        }
+
+        public static void menu()
+        {
+            try
+            {
+                Console.Write("   1. Создать массив\n" +
+                    "   2. Распечатать массив\n" +
+                    "   3. Удалить минимальный элемент массива\n" +
+                    "   4. Добавить N элементов, начиная с номера K\n" +
+                    "   5. Поменять местами элементы с четными и нечетными номерами\n" +
+                    "   6. Найти элемент с заданным ключом\n" +
+                    "   7. Рассортировать массив простым выбором\n" +
+                    "   8. Выйти из программы\n\n" +
+                    "Выберите задание: ");
+                switch (int.Parse(Console.ReadLine()))
+                {
+                    case 1:
+                        sorted = false;
+                        int n = Vvodn();
+                        mas = DoMAS(n);
+                        Console.Clear();
+                        menu();
+                        break;
+
+                    case 2:
+                        Proverka(mas);
+                        Console.Clear();
+                        Console.WriteLine("Массив равен:");
+                        Vivod(mas);
+                        Console.WriteLine();
+                        menu();
+                        break;
+
+                    case 3:
+                        Proverka(mas);
+                        DelMin(ref mas);
+                        Console.Clear();
+                        menu();
+                        break;
+
+                    case 4:
+                        sorted = false;
+                        Proverka(mas);
+                        int N = 0;
+                        int K = 0;
+                        VvodNK(ref N, ref K);
+                        Dobavit(ref mas, N, K);
+                        Console.Clear();
+                        menu();
+                        break;
+
+                    case 5:
+                        sorted = false;
+                        Proverka(mas);
+                        Swap(ref mas);
+                        Console.Clear();
+                        menu();
+                        break;
+
+                    case 6:
+                        Proverka(mas);
+                        int poisk = VvodPoisk();
+                        int sravn = 0;
+                        Console.Clear();
+                        Vivod(Poisk(mas, poisk, ref sravn), false);
+                        Console.WriteLine("Колличество сравнений равно: {0}\n", sravn);
+                        menu();
+                        break;
+
+                    case 7:
+                        sorted = true;
+                        Proverka(mas);
+                        Sort(ref mas);
+                        Console.Clear();
+                        menu();
+                        break;
+
+                    case 8:
+                        Console.Write("Нажмите любую клавишу для выхода...");
+                        break;
+
+                    default:
+                        Console.Clear();
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Неверный формат числа\n");
+                        Console.ResetColor();
+                        menu();
+                        break;
+                }
+            }
+            catch (ArgumentNullException)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Функция применена к пустому массиву\n");
+                Console.ResetColor();
+                menu();
+            }
+            catch
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Неверный формат числа\n");
+                Console.ResetColor();
+                menu();
+            }
+        }
+
         private static void Main(string[] args)
         {
-            int N = 0;
+            /*int N = 0;
             int K = 0;
             int kolvo_sravn = 0;
             int n = Vvodn();
@@ -226,7 +366,8 @@ namespace Лаба_4
             Vivod(mas);
             Console.Write($"Массив адресов, покоторым находится значение {poisk}: ");
             Vivod(Poisk(mas, poisk, ref kolvo_sravn), false);
-            Console.WriteLine($"Количество сравнений при поиске: {kolvo_sravn}");
+            Console.WriteLine($"Количество сравнений при поиске: {kolvo_sravn}");*/
+            menu();
             Console.ReadKey();
         }
     }

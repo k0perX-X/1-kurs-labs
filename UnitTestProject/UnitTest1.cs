@@ -21,7 +21,7 @@ namespace UnitTestProject
                     if (mas[i] > mas[i + 1])
                     {
                         Debug.Print(MassToString(masorigin) + "\n\n" + MassToString(mas));
-                        throw new ArgumentOutOfRangeException("\n" + MassToString(masorigin) + "\n\n" + MassToString(mas));
+                        throw new ArgumentOutOfRangeException(MassToString(masorigin) + "\n\n" + MassToString(mas));
                     }
             }
         }
