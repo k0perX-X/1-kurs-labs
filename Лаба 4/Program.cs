@@ -62,7 +62,7 @@ namespace Лаба_4
             return n;
         }
 
-        public static void VvodNK(ref int n, ref int k)
+        public static void VvodNK(ref int n, ref int k, int[] mas)
         {
             bool vihod = false;
             do
@@ -117,6 +117,7 @@ namespace Лаба_4
 
         public static void DelMin(ref int[] mas)
         {
+            Proverka(mas);
             int min = mas.Min();
             mas = mas.Where(i => i != min).ToArray();
         }
@@ -165,8 +166,9 @@ namespace Лаба_4
                 }
         }
 
-        public static int[] Poisk(int[] mas, int poisk, ref int количество_сравнений)
+        public static int[] Poisk(int[] mas, int poisk, out int количество_сравнений)
         {
+            количество_сравнений = 0;
             if (!sorted)
             {
                 int[] poiskmas = new int[mas.Length];
@@ -180,24 +182,22 @@ namespace Лаба_4
                 }
                 return poiskmas.Where(i => i != -1).ToArray();
             }
-            else return BinaryPoisk(mas, poisk, 0, mas.Length, ref количество_сравнений);
+            else return BinaryPoisk(mas, poisk, 0, mas.Length, out количество_сравнений);
         }
 
         public static void Sort(ref int[] mas)
         {
             int temp;
+            int mini;
             for (int i = 0; i < mas.Length - 1; i++)
             {
-                int mini = i;
+                mini = i;
                 for (int j = i + 1; j < mas.Length; j++)
                     if (mas[j] < mas[mini])
                         mini = j;
                 temp = mas[i];
                 mas[i] = mas[mini];
                 mas[mini] = temp;
-                //mas[mini] ^= mas[i];
-                //mas[i] ^= mas[mini];
-                //mas[mini] ^= mas[i];
             }
         }
 
@@ -207,11 +207,13 @@ namespace Лаба_4
                 throw new ArgumentNullException();
         }
 
-        public static int[] BinaryPoisk(int[] array, int searchedValue, int left, int right, ref int количество_сравнений)
+        public static int[] BinaryPoisk(int[] array, int searchedValue, int left, int right, out int количество_сравнений)
         {
+            количество_сравнений = 0;
+            int middle;
             while (left <= right)
             {
-                var middle = (left + right) / 2;
+                middle = (left + right) / 2;
                 if (searchedValue == array[middle])
                 {
                     количество_сравнений++;
@@ -223,7 +225,10 @@ namespace Лаба_4
                     right = middle - 1;
                 }
                 else
+                {
+                    количество_сравнений += 2;
                     left = middle + 1;
+                }
             }
             return new int[0];
         }
@@ -252,7 +257,6 @@ namespace Лаба_4
                         break;
 
                     case 2:
-                        Proverka(mas);
                         Console.Clear();
                         Console.WriteLine("Массив равен:");
                         Vivod(mas);
@@ -261,7 +265,6 @@ namespace Лаба_4
                         break;
 
                     case 3:
-                        Proverka(mas);
                         DelMin(ref mas);
                         Console.Clear();
                         menu();
@@ -272,7 +275,7 @@ namespace Лаба_4
                         Proverka(mas);
                         int N = 0;
                         int K = 0;
-                        VvodNK(ref N, ref K);
+                        VvodNK(ref N, ref K, mas);
                         Dobavit(ref mas, N, K);
                         Console.Clear();
                         menu();
@@ -291,7 +294,7 @@ namespace Лаба_4
                         int poisk = VvodPoisk();
                         int sravn = 0;
                         Console.Clear();
-                        Vivod(Poisk(mas, poisk, ref sravn), false);
+                        Vivod(Poisk(mas, poisk, out sravn), false);
                         Console.WriteLine("Колличество сравнений равно: {0}\n", sravn);
                         menu();
                         break;
@@ -337,36 +340,6 @@ namespace Лаба_4
 
         private static void Main(string[] args)
         {
-            /*int N = 0;
-            int K = 0;
-            int kolvo_sravn = 0;
-            int n = Vvodn();
-            int[] mas = DoMAS(n);
-            Console.WriteLine("Изначальный массив:");
-            Vivod(mas);
-            DelMin(ref mas);
-            Console.WriteLine("Массив, после удаления минимального:");
-            Vivod(mas);
-            VvodNK(ref N, ref K, ref mas);
-            Dobavit(ref mas, N, K);
-            Console.WriteLine("Массив полсе добавления элементов:");
-            Vivod(mas);
-            Swap(ref mas);
-            Console.WriteLine("Массив после перестановки:");
-            Vivod(mas);
-            int poisk = VvodPoisk();
-            Console.Write($"Массив адресов, покоторым находится значение {poisk}: ");
-            Vivod(Poisk(mas, poisk, ref kolvo_sravn), false);
-            Console.WriteLine($"Количество сравнений при поиске: {kolvo_sravn}");
-            kolvo_sravn = 0;
-            int[] masorigin = new int[mas.Length];
-            mas.CopyTo(masorigin.AsMemory());
-            Sort(ref mas);
-            Sort(ref masorigin);
-            Vivod(mas);
-            Console.Write($"Массив адресов, покоторым находится значение {poisk}: ");
-            Vivod(Poisk(mas, poisk, ref kolvo_sravn), false);
-            Console.WriteLine($"Количество сравнений при поиске: {kolvo_sravn}");*/
             menu();
             Console.ReadKey();
         }
