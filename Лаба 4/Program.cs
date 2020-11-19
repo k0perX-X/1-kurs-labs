@@ -18,7 +18,7 @@ namespace Лаба_4
             //0;
             int.MinValue;
 
-        public static int Vvodn()
+        public static int Vvodn(string predlojenie_vvoda = "Пожалуйста, введите n: ", int bolshe = 0, int menshe = int.MaxValue)
         {
             int n = 0;
             bool vihod = false;
@@ -26,8 +26,9 @@ namespace Лаба_4
             {
                 try
                 {
-                    Console.Write("Пожалуйста, введите n: ");
+                    Console.Write(predlojenie_vvoda);
                     n = int.Parse(Console.ReadLine());
+                    if ((n < bolshe) || (n > menshe)) throw new AccessViolationException();
                     vihod = true;
                 }
                 catch
