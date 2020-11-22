@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Лаба_4
 {
-    public class Laba4
+    static public class Laba4
     {
         public static Random rand = new Random();
 
