@@ -55,8 +55,11 @@ namespace Лаба_5
             using (Stream stream = new MemoryStream())
             {
                 BinaryFormatter formatter = new BinaryFormatter();
+#pragma warning disable SYSLIB0011 // Тип или член устарел
                 formatter.Serialize(stream, arr);
-                Debug.Print((size = stream.Length).ToString());
+#pragma warning restore SYSLIB0011 // Тип или член устарел
+                size = stream.Length;
+                Debug.Print(size.ToString());
             }
         }
 
@@ -133,47 +136,99 @@ namespace Лаба_5
             return mas;
         }
 
+        public static bool Menu()
+        {
+            try
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("\nМЕНЮ\n");
+                Console.ResetColor();
+                Console.Write("   1. Задание для одномерного массива\n" +
+                    "   2. Задание для двумерного массива\n" +
+                    "   3. Задание для массива массивов\n" +
+                    "   4. Выход из программы\n" +
+                    "\nВыберите задание: ");
+                switch (int.Parse(Console.ReadLine()))
+                {
+                    case 1:
+                        Console.Clear();
+                        {
+                            Console.WriteLine("Определение одномерного массива размером n");
+                            int[] arr = Laba4.DoMAS(Laba4.Vvodn());
+                            Console.WriteLine("\nВывод изначального массива");
+                            Laba4.Vivod(arr);
+                            SizeOf(arr, out _);
+                            Console.WriteLine("\nВывод измененного массива");
+                            arr = DobavitEl(arr);
+                            SizeOf(arr, out _);
+                            Laba4.Vivod(arr);
+                        }
+                        Console.WriteLine();
+                        return true;
+
+                    case 2:
+                        Console.Clear();
+                        {
+                            Console.WriteLine("Определение двумерного массива размером n*m");
+                            var arr = DoDvumerMas(Laba4.Vvodn(), Laba4.Vvodn("Пожалуйста, введите m: "));
+                            var k = Laba4.Vvodn("Пожалуйста, введите номер столбца, который требуется удалить: ", menshe: arr.GetLength(1)) - 1;
+                            Console.WriteLine("\nВывод изначального массива");
+                            VivodDvumerMas(arr);
+                            SizeOf(arr, out _);
+                            Console.WriteLine("\nВывод измененного массива");
+                            DelStolb(ref arr, k);
+                            VivodDvumerMas(arr);
+                            SizeOf(arr, out _);
+                        }
+                        Console.WriteLine();
+                        return true;
+
+                    case 3:
+                        Console.Clear();
+                        {
+                            Console.WriteLine("Определение двумерного массива размером n*(в диапозоне от min до max)");
+                            int min; int max; int kolvo;
+                            var arr = DoDvumerMas(kolvo = Laba4.Vvodn(), min = Laba4.Vvodn("Пожалуйста, введите min: "), max = Laba4.Vvodn("Пожалуйста, введите max: "));
+                            Console.WriteLine("Добавить К строк, начиная с номера N");
+                            int k = Laba4.Vvodn("Пожалуйста, введите K: ");
+                            int n = Laba4.Vvodn("Пожалуйста, введите N: ", menshe: kolvo);
+                            Console.WriteLine("\nВывод изначального массива");
+                            VivodDvumerMas(arr);
+                            SizeOf(arr, out _);
+                            Console.WriteLine("\nВывод измененного массива");
+                            VivodDvumerMas(arr = DobavitKN(arr, k, n, min, max));
+                            SizeOf(arr, out _);
+                        }
+                        Console.WriteLine();
+                        return true;
+
+                    case 4:
+                        Console.Write("Нажмите любую клавишу для выхода...");
+                        Console.ReadKey();
+                        return false;
+
+                    default:
+                        Console.Clear();
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Неверный формат числа\n");
+                        Console.ResetColor();
+                        Console.WriteLine();
+                        return true;
+                }
+            }
+            catch
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Неверный формат числа\n");
+                Console.ResetColor();
+                return true;
+            }
+        }
+
         private static void Main(string[] args)
         {
-            {
-                Console.WriteLine("Определение одномерного массива размером n");
-                int[] arr = Laba4.DoMAS(Laba4.Vvodn());
-                Console.WriteLine("\nВывод изначального массива");
-                Laba4.Vivod(arr);
-                SizeOf(arr, out _);
-                Console.WriteLine("\nВывод измененного массива");
-                arr = DobavitEl(arr);
-                SizeOf(arr, out _);
-                Laba4.Vivod(arr);
-            }
-            {
-                Console.WriteLine("\n\nОпределение двумерного массива размером n*m");
-                var arr = DoDvumerMas(Laba4.Vvodn(), Laba4.Vvodn("Пожалуйста, введите m: "));
-                var k = Laba4.Vvodn("Пожалуйста, введите номер столбца, который требуется удалить: ", menshe: arr.GetLength(1)) - 1;
-                Console.WriteLine("\nВывод изначального массива");
-                VivodDvumerMas(arr);
-                SizeOf(arr, out _);
-                Console.WriteLine("\nВывод измененного массива");
-                DelStolb(ref arr, k);
-                VivodDvumerMas(arr);
-                SizeOf(arr, out _);
-            }
-            {
-                Console.WriteLine("\n\nОпределение двумерного массива размером n*(в диапозоне от min до max)");
-                int min; int max; int kolvo;
-                var arr = DoDvumerMas(kolvo = Laba4.Vvodn(), min = Laba4.Vvodn("Пожалуйста, введите min: "), max = Laba4.Vvodn("Пожалуйста, введите max: "));
-                Console.WriteLine("Добавить К строк, начиная с номера N");
-                int k = Laba4.Vvodn("Пожалуйста, введите K: ");
-                int n = Laba4.Vvodn("Пожалуйста, введите N: ", menshe: kolvo);
-                Console.WriteLine("\nВывод изначального массива");
-                VivodDvumerMas(arr);
-                SizeOf(arr, out _);
-                Console.WriteLine("\nВывод измененного массива");
-                VivodDvumerMas(arr = DobavitKN(arr, k, n, min, max));
-                SizeOf(arr, out _);
-            }
-            Console.Write("Нажмите любую клавишу для выхода...");
-            Console.ReadKey();
+            while (Menu()) ;
         }
     }
 }

@@ -234,7 +234,7 @@ namespace Лаба_4
             return new int[0];
         }
 
-        public static void menu()
+        public static void Menu()
         {
             try
             {
@@ -254,7 +254,7 @@ namespace Лаба_4
                         int n = Vvodn();
                         mas = DoMAS(n);
                         Console.Clear();
-                        menu();
+                        Menu();
                         break;
 
                     case 2:
@@ -262,13 +262,13 @@ namespace Лаба_4
                         Console.WriteLine("Массив равен:");
                         Vivod(mas);
                         Console.WriteLine();
-                        menu();
+                        Menu();
                         break;
 
                     case 3:
                         DelMin(ref mas);
                         Console.Clear();
-                        menu();
+                        Menu();
                         break;
 
                     case 4:
@@ -279,7 +279,7 @@ namespace Лаба_4
                         VvodNK(ref N, ref K, mas);
                         Dobavit(ref mas, N, K);
                         Console.Clear();
-                        menu();
+                        Menu();
                         break;
 
                     case 5:
@@ -287,7 +287,7 @@ namespace Лаба_4
                         Proverka(mas);
                         Swap(ref mas);
                         Console.Clear();
-                        menu();
+                        Menu();
                         break;
 
                     case 6:
@@ -297,7 +297,7 @@ namespace Лаба_4
                         Console.Clear();
                         Vivod(Poisk(mas, poisk, out sravn), false);
                         Console.WriteLine("Колличество сравнений равно: {0}\n", sravn);
-                        menu();
+                        Menu();
                         break;
 
                     case 7:
@@ -305,7 +305,7 @@ namespace Лаба_4
                         Proverka(mas);
                         Sort(ref mas);
                         Console.Clear();
-                        menu();
+                        Menu();
                         break;
 
                     case 8:
@@ -317,7 +317,7 @@ namespace Лаба_4
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Неверный формат числа\n");
                         Console.ResetColor();
-                        menu();
+                        Menu();
                         break;
                 }
             }
@@ -327,7 +327,7 @@ namespace Лаба_4
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Функция применена к пустому массиву\n");
                 Console.ResetColor();
-                menu();
+                Menu();
             }
             catch
             {
@@ -335,13 +335,13 @@ namespace Лаба_4
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Неверный формат числа\n");
                 Console.ResetColor();
-                menu();
+                Menu();
             }
         }
 
         private static void Main(string[] args)
         {
-            menu();
+            Menu();
             Console.ReadKey();
         }
     }
