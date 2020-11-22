@@ -138,7 +138,7 @@ namespace Лаба_5
 
         public static bool Menu()
         {
-            try
+            //try
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("\nМЕНЮ\n");
@@ -147,11 +147,20 @@ namespace Лаба_5
                     "   2. Задание для двумерного массива\n" +
                     "   3. Задание для массива массивов\n" +
                     "   4. Выход из программы\n" +
+                    //"   5. Убить уши\n" +
                     "\nВыберите задание: ");
                 switch (int.Parse(Console.ReadLine()))
                 {
                     case 1:
-                        Console.Clear();
+                        //for (int i = 0; i < Console.WindowHeight + 2; i++)
+                        //    Console.WriteLine();
+                        string str = "=";
+                        int w = Console.WindowWidth;
+                        str = str.PadRight(Console.WindowWidth, '=');
+                        Console.WriteLine(str);
+                        Console.SetCursorPosition(0, Console.CursorTop + Console.WindowHeight + 2);
+                        Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
+                        //Console.Clear();
                         {
                             Console.WriteLine("Определение одномерного массива размером n");
                             int[] arr = Laba4.DoMAS(Laba4.Vvodn());
@@ -207,6 +216,11 @@ namespace Лаба_5
                         Console.ReadKey();
                         return false;
 
+                    //case 5:
+                    //    for (int i = 5; Math.Pow(2, i) < 20000; i++)
+                    //        Console.Beep((int)Math.Pow(2, i) + 5, 1000);
+                    //    return false;
+
                     default:
                         Console.Clear();
                         Console.ForegroundColor = ConsoleColor.Red;
@@ -216,7 +230,7 @@ namespace Лаба_5
                         return true;
                 }
             }
-            catch
+            //catch
             {
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
