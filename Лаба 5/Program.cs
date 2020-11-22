@@ -149,18 +149,15 @@ namespace Лаба_5
                     "   4. Выход из программы\n" +
                     //"   5. Убить уши\n" +
                     "\nВыберите задание: ");
+                string str;
                 switch (int.Parse(Console.ReadLine()))
                 {
                     case 1:
-                        //for (int i = 0; i < Console.WindowHeight + 2; i++)
-                        //    Console.WriteLine();
-                        string str = "=";
-                        int w = Console.WindowWidth;
+                        str = "=";
                         str = str.PadRight(Console.WindowWidth, '=');
                         Console.WriteLine(str);
                         Console.SetCursorPosition(0, Console.CursorTop + Console.WindowHeight + 2);
                         Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
-                        //Console.Clear();
                         {
                             Console.WriteLine("Определение одномерного массива размером n");
                             int[] arr = Laba4.DoMAS(Laba4.Vvodn());
@@ -176,7 +173,11 @@ namespace Лаба_5
                         return true;
 
                     case 2:
-                        Console.Clear();
+                        str = "=";
+                        str = str.PadRight(Console.WindowWidth, '=');
+                        Console.WriteLine(str);
+                        Console.SetCursorPosition(0, Console.CursorTop + Console.WindowHeight + 2);
+                        Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
                         {
                             Console.WriteLine("Определение двумерного массива размером n*m");
                             var arr = DoDvumerMas(Laba4.Vvodn(), Laba4.Vvodn("Пожалуйста, введите m: "));
@@ -193,7 +194,11 @@ namespace Лаба_5
                         return true;
 
                     case 3:
-                        Console.Clear();
+                        str = "=";
+                        str = str.PadRight(Console.WindowWidth, '=');
+                        Console.WriteLine(str);
+                        Console.SetCursorPosition(0, Console.CursorTop + Console.WindowHeight + 2);
+                        Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
                         {
                             Console.WriteLine("Определение двумерного массива размером n*(в диапозоне от min до max)");
                             int min; int max; int kolvo;
@@ -215,11 +220,6 @@ namespace Лаба_5
                         Console.Write("Нажмите любую клавишу для выхода...");
                         Console.ReadKey();
                         return false;
-
-                    //case 5:
-                    //    for (int i = 5; Math.Pow(2, i) < 20000; i++)
-                    //        Console.Beep((int)Math.Pow(2, i) + 5, 1000);
-                    //    return false;
 
                     default:
                         Console.Clear();
