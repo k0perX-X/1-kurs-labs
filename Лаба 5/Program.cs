@@ -138,7 +138,7 @@ namespace Лаба_5
 
         public static bool Menu()
         {
-            //try
+            try
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("\nМЕНЮ\n");
@@ -230,7 +230,7 @@ namespace Лаба_5
                         return true;
                 }
             }
-            //catch
+            catch
             {
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
