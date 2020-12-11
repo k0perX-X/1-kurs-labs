@@ -199,7 +199,7 @@ namespace Лаба_5
                         Console.SetCursorPosition(0, Console.CursorTop + Console.WindowHeight + 2);
                         Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
                         {
-                            Console.WriteLine("Определение двумерного массива размером n*(в диапозоне от min до max)");
+                            Console.WriteLine("Определение двумерного массива размером n*(в диапазоне от min до max)");
                             int min; int max; int kolvo;
                             var arr = DoDvumerMas(kolvo = Laba4.Vvodn(), min = Laba4.Vvodn("Пожалуйста, введите min: "), max = Laba4.Vvodn("Пожалуйста, введите max: "));
                             Console.WriteLine("Добавить К строк, начиная с номера N");
