@@ -15,7 +15,7 @@ namespace Лаба_6
             //0;
             int.MinValue;
 
-        public static double DoubleVvod(string predlojenie_vvoda, int bolshe = int.MinValue, int menshe = int.MaxValue)
+        public static double DoubleVvod(string predlojenie_vvoda, double bolshe = int.MinValue, double menshe = int.MaxValue)
         {
             double n;
             bool vihod = false;
@@ -108,7 +108,7 @@ namespace Лаба_6
             {
                 for (int j = 0; j < m; j++)
                 {
-                    mas[i, j] = rnd.Next(min, max);
+                    mas[i, j] = rnd.Next(min, max) * rnd.NextDouble();
                 }
             }
             return mas;
@@ -161,7 +161,7 @@ namespace Лаба_6
 
         public static void OsnMenu()
         {
-            try
+            //try
             {
                 int u;
                 bool vihod = false;
@@ -210,7 +210,7 @@ namespace Лаба_6
                         }
                 } while (!vihod);
             }
-            catch
+            //catch
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Непредвиденная ошибка. Перезапуск программы.");
@@ -238,22 +238,22 @@ namespace Лаба_6
                     Console.WriteLine("Неверный формат числа");
                     Console.ResetColor();
                 }
-                switch (u)
-                {
-                    case 1:
-                        return DoVvodMas(n, m);
+                else
+                    switch (u)
+                    {
+                        case 1:
+                            return DoVvodMas(n, m);
 
-                    case 2:
-                        return DoRandMas(n, m);
+                        case 2:
+                            return DoRandMas(n, m);
 
-                    default:
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Неверный формат числа");
-                        Console.ResetColor();
-                        break;
-                }
-            } while (false);
-            return DoRandMas(n, m);
+                        default:
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Неверный формат числа");
+                            Console.ResetColor();
+                            continue;
+                    }
+            } while (true);
         }
 
         public static double[,] DelStrokiWith(double chislo, double[,] mas)
@@ -302,15 +302,8 @@ namespace Лаба_6
 
         public static string DelLastAndFirst(string s)
         {
-            string new_s = "";
-            string[] ss = s.Split('.', '!', '?');
-            for (int i = 1; i < ss.Length - 2; i++)
-            {
-                new_s += ss[i] + ".";
-            }
-            if (new_s.Length > 0)
-                new_s.Substring(1);
-            return new_s;
+            s = s.Substring(s.IndexOfAny(new char[] { '.', '!', '?' }) + 1);
+            return s.Remove(s.LastIndexOfAny(new char[] { '.', '!', '?' }, s.LastIndexOfAny(new char[] { '.', '!', '?' }) - 1) + 1);
         }
 
         public static void Zadacha1()
