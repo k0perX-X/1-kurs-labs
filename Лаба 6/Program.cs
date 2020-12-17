@@ -161,7 +161,7 @@ namespace Лаба_6
 
         public static void OsnMenu()
         {
-            //try
+            try
             {
                 int u;
                 bool vihod = false;
@@ -210,7 +210,7 @@ namespace Лаба_6
                         }
                 } while (!vihod);
             }
-            //catch
+            catch
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Непредвиденная ошибка. Перезапуск программы.");
