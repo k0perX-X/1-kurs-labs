@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Лаба 6", "Лаба 6\Л
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Лаба 7", "Лаба 7\Лаба 7.csproj", "{ACFA756B-D58C-41F0-81C9-EB2A4BAA34FA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTestLaba7\UnitTests.csproj", "{520FF3CC-8A4B-4B51-9F40-427B8A110121}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{B456BB64-0C3A-48A5-8DDF-8EBFCA8B093C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,10 +53,10 @@ Global
 		{ACFA756B-D58C-41F0-81C9-EB2A4BAA34FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACFA756B-D58C-41F0-81C9-EB2A4BAA34FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACFA756B-D58C-41F0-81C9-EB2A4BAA34FA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{520FF3CC-8A4B-4B51-9F40-427B8A110121}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{520FF3CC-8A4B-4B51-9F40-427B8A110121}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{520FF3CC-8A4B-4B51-9F40-427B8A110121}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{520FF3CC-8A4B-4B51-9F40-427B8A110121}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B456BB64-0C3A-48A5-8DDF-8EBFCA8B093C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B456BB64-0C3A-48A5-8DDF-8EBFCA8B093C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B456BB64-0C3A-48A5-8DDF-8EBFCA8B093C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B456BB64-0C3A-48A5-8DDF-8EBFCA8B093C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
