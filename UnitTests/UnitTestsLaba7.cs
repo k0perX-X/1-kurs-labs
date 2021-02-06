@@ -279,8 +279,13 @@ namespace UnitTestLaba7
                         y = rnd.NextDouble() * double.MinValue;
                     else
                         y = rnd.NextDouble() * double.MaxValue;
-                } while (x > y);
+                } while (x > y || double.IsInfinity(y - x));
                 da = new DiapasonArray(rnd.Next(1000), x, y);
+                foreach (Diapason dp in da.arr)
+                {
+                    if (dp.X < x || dp.X > y || dp.Y < x || dp.Y > y)
+                        throw new Exception("Вне диапазона");
+                }
             }
         }
     }

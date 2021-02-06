@@ -33,6 +33,8 @@ namespace Лаба_7
         {
             arr = new Diapason[n];
             double mm = max - min;
+            if (double.IsInfinity(mm))
+                throw new Exception("Inappropriate min and max values");
             for (int i = 0; i < n; i++)
                 arr[i] = new Diapason(rnd.NextDouble() * mm + min, rnd.NextDouble() * mm + min);
             count++;

@@ -228,7 +228,29 @@ namespace Лаба_7
                         Console.SetCursorPosition(0, Console.CursorTop + Console.WindowHeight + 2);
                         Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
                         {
-                            arr = new DiapasonArray(IntVvod("Введите количество элементов массива: ", 0), -100, 100);
+                            int n = IntVvod("Введите количество элементов массива: ", 0);
+                            double min = 0, max = 0;
+                            while (true)
+                            {
+                                min = DoubleVvod("Введите минимальное значение массива: ");
+                                max = DoubleVvod("Введите максимальное значение массива: ");
+                                if (min > max)
+                                {
+                                    Console.ForegroundColor = ConsoleColor.Red;
+                                    Console.WriteLine("Минимальное значение больше максимального значения");
+                                    Console.ResetColor();
+                                    continue;
+                                }
+                                if (double.IsInfinity(max - min))
+                                {
+                                    Console.ForegroundColor = ConsoleColor.Red;
+                                    Console.WriteLine("Использованы недопустимые значения");
+                                    Console.ResetColor();
+                                    continue;
+                                }
+                                break;
+                            }
+                            arr = new DiapasonArray(n, min, max);
                             Console.WriteLine("Массив создан");
                             prisv = true;
                         }
