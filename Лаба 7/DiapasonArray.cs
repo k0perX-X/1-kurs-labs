@@ -119,6 +119,23 @@ namespace Лаба_7
             return n;
         }
 
+        public Diapason MaxValue()
+        {
+            if (arr.Length == 0)
+                return null;
+            double max = !arr[0];
+            int im = 0;
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (max < !arr[i])
+                {
+                    im = i;
+                    max = !arr[i];
+                }
+            }
+            return arr[im];
+        }
+
         ~DiapasonArray()
         {
             count--;

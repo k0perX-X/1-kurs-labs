@@ -262,7 +262,7 @@ namespace UnitTestLaba7
         }
 
         [TestMethod]
-        public void Создание_DiapasonArray_c_параметрами_N_MAX_MIN()
+        public void Создание_DiapasonArray_c_параметрами_N_MAX_MIN_и_проверка_MaxValue()
         {
             Random rnd = new Random();
             DiapasonArray da;
@@ -286,6 +286,7 @@ namespace UnitTestLaba7
                     if (dp.X < x || dp.X > y || dp.Y < x || dp.Y > y)
                         throw new Exception("Вне диапазона");
                 }
+                da.MaxValue();
             }
         }
     }
