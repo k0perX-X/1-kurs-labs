@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Лаба 5", "Лаба 5\Л
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Лаба 6", "Лаба 6\Лаба 6.csproj", "{95A0B68F-0853-47E3-8429-72A90446914A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Лаба 7", "Лаба 7\Лаба 7.csproj", "{ACFA756B-D58C-41F0-81C9-EB2A4BAA34FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Лаба 9", "Лаба 7\Лаба 9.csproj", "{ACFA756B-D58C-41F0-81C9-EB2A4BAA34FA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{B456BB64-0C3A-48A5-8DDF-8EBFCA8B093C}"
 EndProject

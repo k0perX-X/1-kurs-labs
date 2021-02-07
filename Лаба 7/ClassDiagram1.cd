@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Лаба_7.Diapason">
+    <Position X="1.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABBGAAgBAAgAAAAAAAABAAAAAYAA=</HashCode>
+      <FileName>Diapason.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Лаба_7.DiapasonArray">
+    <Position X="3.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAEAAAAAgAAAAAABAAAAAAAgAAAAAAAAAAgAAIAAAA=</HashCode>
+      <FileName>DiapasonArray.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Лаба_7.Program">
+    <Position X="5.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAABAgAAIAAAAACAgBAIAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

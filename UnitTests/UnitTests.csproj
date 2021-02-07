@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Лаба 7\Лаба 7.csproj" />
+    <ProjectReference Include="..\Лаба 7\Лаба 9.csproj" />
   </ItemGroup>
 
 </Project>
