@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Laba_10
 {
-    internal class Car : Vehicle
+    internal class Car : Vehicle, IInit
     {
         private int _numberOfDoors;
 
@@ -28,6 +28,16 @@ namespace Laba_10
         {
             base.Show();
             Console.Write($", Number of doors: {_numberOfDoors}");
+        }
+
+        private protected static Random random = new Random();
+
+        public virtual object Init()
+        {
+            Vehicle b = (Vehicle)base.Init();
+            string[] names = new[] { "Ламбарджини", "Ферари", "БМВ", "Легковая", "Спортивная", "Гиперкар", "Тарантайка" };
+            Car car = new Car { Name = names[random.Next(0, names.Length)], PassengerCapacity = b.PassengerCapacity, NumberOfDoors = random.Next(1, 10) };
+            return car;
         }
     }
 }

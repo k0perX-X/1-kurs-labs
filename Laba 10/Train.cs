@@ -51,11 +51,72 @@ namespace Laba_10
                     Console.Write("Массив пустой");
         }
 
+        private void PrintMas(int[] mas, bool bracket = true, bool inOneLine = false)
+        {
+            if (mas.Length > 0)
+            {
+                if (bracket) Console.Write("[");
+                for (int i = 0; i < mas.Length - 1; i++)
+                    Console.Write($"{mas[i]}, ");
+                Console.Write(mas[^1]);
+                if (bracket) Console.Write("]");
+                if (!inOneLine)
+                    Console.WriteLine();
+            }
+            else
+            if (bracket)
+                if (!inOneLine)
+                    Console.WriteLine("Массив пустой");
+                else
+                    Console.Write("Массив пустой");
+        }
+
         public override void Show()
         {
             base.Show();
-            Console.Write($", Stations: ");
+            Console.Write(", Stations: ");
             PrintMas(_stations, inOneLine: true);
+            Console.Write(", Number of passengers in the carriage: ");
+            PrintMas(_numberOfPassengersInTheCarriage, inOneLine: true);
+        }
+
+        private protected static Random random = new Random();
+
+        public virtual object Init()
+        {
+            Vehicle b = (Vehicle)base.Init();
+            string[] names = new[]
+            {
+                "Скорый", "Пригородный", "Междугородний", "Дальнего следования", "Метро",
+                "Внутригородской", "Трамвай"
+            };
+            string[] st = new[]
+            {
+                "Заводская", "Воздушная", "Хлебозаводская", "Народная", "32 км", "Центральная",
+                "Конечная"
+            };
+            int numberOfStations = random.Next(0, 4);
+            string[] sts = new string[numberOfStations];
+            for (int i = 0; i < numberOfStations; i++)
+            {
+                sts[i] = st[random.Next(0, numberOfStations)];
+            }
+
+            int numberOfNumberOfPassengersInTheCarriage = random.Next(1, 10);
+            int[] numberOfPassengersInTheCarriage = new int[numberOfNumberOfPassengersInTheCarriage];
+            for (int i = 0; i < numberOfNumberOfPassengersInTheCarriage; i++)
+            {
+                numberOfPassengersInTheCarriage[i] = random.Next(0, 100);
+            }
+
+            Train train = new Train
+            {
+                Name = names[random.Next(0, names.Length)],
+                PassengerCapacity = b.PassengerCapacity,
+                Stations = sts,
+                NumberOfPassengersInTheCarriage = numberOfPassengersInTheCarriage
+            };
+            return train;
         }
     }
 }

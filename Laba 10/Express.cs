@@ -29,5 +29,22 @@ namespace Laba_10
             base.Show();
             Console.Write($", Speed: {speed}");
         }
+
+        private protected static Random random = new Random();
+
+        public virtual object Init()
+        {
+            Train b = (Train)base.Init();
+
+            Express express = new Express
+            {
+                Name = b.Name,
+                PassengerCapacity = b.PassengerCapacity,
+                Stations = b.Stations,
+                NumberOfPassengersInTheCarriage = b.NumberOfPassengersInTheCarriage,
+                Speed = random.Next(50, 501)
+            };
+            return express;
+        }
     }
 }
