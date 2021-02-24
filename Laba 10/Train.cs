@@ -6,12 +6,19 @@ namespace Laba_10
 {
     internal class Train : Vehicle
     {
+        private int[] _numberOfPassengersInTheCarriage;
         private string[] _stations;
 
         public string[] Stations
         {
             get => _stations;
             set => _stations = value;
+        }
+
+        public int[] NumberOfPassengersInTheCarriage
+        {
+            get => _numberOfPassengersInTheCarriage;
+            set => _numberOfPassengersInTheCarriage = value;
         }
 
         public Train() : base()

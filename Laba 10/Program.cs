@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Laba_10
 {
@@ -34,7 +35,27 @@ namespace Laba_10
                     vihod = true;
                 }
             } while (!vihod);
+
             return n;
+        }
+
+        private static void PrintMas(string[] mas, bool bracket = true, bool inOneLine = false)
+        {
+            if (mas.Length > 0)
+            {
+                if (bracket) Console.Write("[");
+                for (int i = 0; i < mas.Length - 1; i++)
+                    Console.Write($"{mas[i]}, ");
+                Console.Write(mas[^1]);
+                if (bracket) Console.Write("]");
+                if (!inOneLine)
+                    Console.WriteLine();
+            }
+            else if (bracket)
+                if (!inOneLine)
+                    Console.WriteLine("Массив пустой");
+                else
+                    Console.Write("Массив пустой");
         }
 
         private static bool Menu()
@@ -45,10 +66,10 @@ namespace Laba_10
                 Console.WriteLine("\nМЕНЮ\n");
                 Console.ResetColor();
                 Console.Write("   1. Часть 1\n" +
-                    "   2. Часть 2\n" +
-                    "   3. Часть 3\n" +
-                    "   4. Выход из программы\n" +
-                    "\nВыберите задание: ");
+                              "   2. Часть 2\n" +
+                              "   3. Часть 3\n" +
+                              "   4. Выход из программы\n" +
+                              "\nВыберите задание: ");
                 string str;
                 switch (int.Parse(Console.ReadLine()))
                 {
@@ -66,7 +87,8 @@ namespace Laba_10
                             Console.WriteLine();
                             Console.WriteLine("Car");
                             Console.Write("Name: ");
-                            Car car = new Car(Console.ReadLine(), IntInput("Passenger capacity: "), IntInput("Number of doors: "));
+                            Car car = new Car(Console.ReadLine(), IntInput("Passenger capacity: "),
+                                IntInput("Number of doors: "));
                             car.Show();
                             Console.WriteLine();
                             Console.WriteLine("Train");
@@ -80,6 +102,7 @@ namespace Laba_10
                                 Console.Write($"Station №{i + 1}: ");
                                 stations[i] = Console.ReadLine();
                             }
+
                             Train train = new Train(name, passengerCapacity, stations);
                             train.Show();
                             Console.WriteLine();
@@ -94,6 +117,7 @@ namespace Laba_10
                                 Console.Write($"Station №{i + 1}: ");
                                 stations[i] = Console.ReadLine();
                             }
+
                             Express express = new Express(name, passengerCapacity, stations, IntInput("Speed: "));
                             express.Show();
                             Console.WriteLine();
@@ -115,6 +139,49 @@ namespace Laba_10
                         Console.SetCursorPosition(0, Console.CursorTop + Console.WindowHeight + 2);
                         Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
                         {
+                            //Init
+                            Car car = new Car();
+                            Train train = new Train
+                            {
+                                NumberOfPassengersInTheCarriage = new[] { 30, 40, 30, 50 },
+                                Stations = new[]
+                                {
+                                    "Заводская", "Воздушная", "Хлебозаводская", "Народная", "32 км", "Центральная",
+                                    "Конечная"
+                                }
+                            };
+                            Express express = new Express
+                            {
+                                NumberOfPassengersInTheCarriage = new[] { 10, 20, 30, 40, 50 },
+                                Stations = new[]
+                                {
+                                    "Заводская", "Народная", "32 км", "Центральная", "Дальняя"
+                                }
+                            };
+                            Train[] trains = new[]
+                            {
+                                train,
+                                express,
+                                new Train {NumberOfPassengersInTheCarriage = new[] {50, 40, 30, 50}},
+                                new Train {NumberOfPassengersInTheCarriage = new[] {0, 0, 0, 0}},
+                                new Express {NumberOfPassengersInTheCarriage = new[] {50, 60, 37, 40}}
+                            };
+                            //Количество пассажиров во всех вагонах экспресса.
+                            Console.WriteLine(
+                                $"Количество пассажиров во всех вагонах экспресса: {Enumerable.Sum(express.NumberOfPassengersInTheCarriage)}");
+                            //Одинаковые остановки у поезда и экспресса
+                            Console.Write("Одинаковые остановки у поезда и экспресса: ");
+                            PrintMas(express.Stations.Where(station => train.Stations.Contains(station)).ToArray());
+                            //Количество пассажиров едущих на экспрессе среди всех поездов
+                            int sum = 0;
+                            foreach (var t in trains)
+                            {
+                                if (t is Express)
+                                {
+                                    sum += Enumerable.Sum(t.NumberOfPassengersInTheCarriage);
+                                }
+                            }
+                            Console.WriteLine($"Количество пассажиров едущих на экспрессе среди всех поездов: {sum}");
                         }
                         Console.WriteLine();
                         return true;
@@ -155,7 +222,9 @@ namespace Laba_10
 
         private static void Main(string[] args)
         {
-            while (Menu()) { }
+            while (Menu())
+            {
+            }
         }
     }
 }
