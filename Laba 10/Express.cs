@@ -24,7 +24,7 @@ namespace Laba_10
             Speed = speed;
         }
 
-        public void Show()
+        public override void Show()
         {
             base.Show();
             Console.Write($", Speed: {speed}");

@@ -44,7 +44,7 @@ namespace Laba_10
                     Console.Write("Массив пустой");
         }
 
-        public void Show()
+        public override void Show()
         {
             base.Show();
             Console.Write($", Stations: ");

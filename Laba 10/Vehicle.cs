@@ -31,7 +31,7 @@ namespace Laba_10
             PassengerCapacity = passengerCapacity;
         }
 
-        public void Show()
+        public virtual void Show()
         {
             Console.Write($"Name: {_name}, Passenger capacity: {_passengerCapacity}");
         }

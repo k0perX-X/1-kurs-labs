@@ -24,7 +24,7 @@ namespace Laba_10
             NumberOfDoors = numberOfDoors;
         }
 
-        public void Show()
+        public override void Show()
         {
             base.Show();
             Console.Write($", Number of doors: {_numberOfDoors}");
