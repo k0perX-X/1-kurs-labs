@@ -2,8 +2,8 @@
 {
     public interface IInit
     {
-        void Init()
-        {
-        }
+        void Init() { }
+
+        void Show() { }
     }
 }

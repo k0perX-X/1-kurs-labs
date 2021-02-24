@@ -1,10 +1,22 @@
 ﻿using System;
 using System.Linq;
+using System.Collections;
+using System.Globalization;
 
 namespace Laba_10
 {
     internal class Program
     {
+        private class SortByName : IComparer
+        {
+            int IComparer.Compare(object ob1, object ob2)
+            {
+                Vehicle s1 = (Vehicle)ob1;
+                Vehicle s2 = (Vehicle)ob2;
+                return String.Compare(s1.Name, s2.Name);
+            }
+        }
+
         private static int IntInput(string inputSuggestion, int greater = int.MinValue, int less = int.MaxValue)
         {
             int n;
@@ -193,6 +205,40 @@ namespace Laba_10
                         Console.SetCursorPosition(0, Console.CursorTop + Console.WindowHeight + 2);
                         Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
                         {
+                            //IInit
+                            IInit[] inits = new IInit[]
+                            {
+                                (IInit)(new Vehicle().Init()), (IInit)(new Car().Init()), (IInit)(new Train().Init()),
+                                (IInit)(new Express().Init()), (IInit)(new Passenger().Init())
+                            };
+                            foreach (var init in inits)
+                            {
+                                init.Show();
+                                Console.WriteLine();
+                            }
+                            str = "=";
+                            str = str.PadRight(Console.WindowWidth, '=');
+                            Console.WriteLine(str);
+                            //IComparer
+                            object[] objects = new[]
+                            {
+                                (IInit) (new Vehicle().Init()), (IInit) (new Car().Init()), (IInit) (new Train().Init()),
+                                (IInit) (new Express().Init())
+                            };
+                            foreach (Vehicle o in objects)
+                            {
+                                o.Show();
+                                Console.WriteLine();
+                            }
+                            str = "=";
+                            str = str.PadRight(Console.WindowWidth / 2, '=');
+                            Console.WriteLine(str);
+                            Array.Sort(objects, new SortByName());
+                            foreach (Vehicle o in objects)
+                            {
+                                o.Show();
+                                Console.WriteLine();
+                            }
                         }
                         return true;
 

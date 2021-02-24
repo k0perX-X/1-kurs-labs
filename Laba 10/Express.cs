@@ -32,7 +32,7 @@ namespace Laba_10
 
         private protected static Random random = new Random();
 
-        public virtual object Init()
+        public override object Init()
         {
             Train b = (Train)base.Init();
 

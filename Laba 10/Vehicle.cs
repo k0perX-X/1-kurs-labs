@@ -41,7 +41,7 @@ namespace Laba_10
         public virtual object Init()
         {
             string[] names = new[] { "Корабль", "Грузовик", "Ракета", "Самолет", "Тюбинг", "Монорельс", "Автобус" };
-            Vehicle vehicle = new Vehicle { Name = names[random.Next(0, names.Length)], PassengerCapacity = random.Next(0, 1000) };
+            Vehicle vehicle = new Vehicle { Name = names[random.Next(0, names.Length)], PassengerCapacity = random.Next(0, 100) };
             return vehicle;
         }
     }
