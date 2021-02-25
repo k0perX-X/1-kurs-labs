@@ -211,7 +211,7 @@ namespace Laba_10
                                 (IInit)(new Vehicle().Init()), (IInit)(new Car().Init()), (IInit)(new Train().Init()),
                                 (IInit)(new Express().Init()), (IInit)(new Passenger().Init())
                             };
-                            foreach (var init in inits)
+                            foreach (IInit init in inits)
                             {
                                 init.Show();
                                 Console.WriteLine();
