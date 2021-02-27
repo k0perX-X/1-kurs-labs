@@ -47,5 +47,10 @@ namespace Laba_10
         {
             Console.Write($"Name: {Name}, Station: {Station}");
         }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 }

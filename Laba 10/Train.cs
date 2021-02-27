@@ -80,7 +80,7 @@ namespace Laba_10
             PrintMas(_numberOfPassengersInTheCarriage, inOneLine: true);
         }
 
-        private protected static Random random = new Random();
+        private protected new static Random random = new Random();
 
         public override object Init()
         {

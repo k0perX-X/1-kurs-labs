@@ -238,6 +238,26 @@ namespace Laba_10
                                 o.Show();
                                 Console.WriteLine();
                             }
+                            str = "=";
+                            str = str.PadRight(Console.WindowWidth, '=');
+                            Console.WriteLine(str);
+                            Vehicle vehicleOriginal = (Vehicle)new Vehicle().Init();
+                            Vehicle vehicleClone = (Vehicle)vehicleOriginal.Clone();
+                            Vehicle vehicleShallowCopy = (Vehicle)vehicleOriginal.ShallowCopy();
+                            Console.WriteLine($"Original:");
+                            vehicleOriginal.Show();
+                            Console.WriteLine("\nClone:");
+                            vehicleClone.Show();
+                            Console.WriteLine("\nShallowCopy:");
+                            vehicleShallowCopy.Show();
+                            vehicleOriginal.Name = "Edited";
+                            vehicleOriginal.Passengers[0].Name = "Edited";
+                            Console.WriteLine($"\nOriginal:");
+                            vehicleOriginal.Show();
+                            Console.WriteLine("\nClone:");
+                            vehicleClone.Show();
+                            Console.WriteLine("\nShallowCopy:");
+                            vehicleShallowCopy.Show();
                         }
                         return true;
 

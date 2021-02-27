@@ -30,7 +30,7 @@ namespace Laba_10
             Console.Write($", Number of doors: {_numberOfDoors}");
         }
 
-        private protected static Random random = new Random();
+        private protected new static Random random = new Random();
 
         public override object Init()
         {
