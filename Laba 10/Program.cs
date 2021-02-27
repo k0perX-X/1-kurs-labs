@@ -4,7 +4,7 @@ using System.Collections;
 
 namespace Laba_10
 {
-    internal class Program
+    public class Program
     {
         private class SortByName : IComparer
         {

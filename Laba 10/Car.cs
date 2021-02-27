@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Laba_10
 {
-    internal class Car : Vehicle, IInit
+    public class Car : Vehicle, IInit
     {
         private int _numberOfDoors;
 

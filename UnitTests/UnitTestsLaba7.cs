@@ -17,6 +17,7 @@ namespace UnitTestLaba7
             {
                 throw new Exception("X не равно 0");
             }
+
             if (dp.Y != 0)
             {
                 throw new Exception("Y не равно 0");
@@ -32,15 +33,18 @@ namespace UnitTestLaba7
             {
                 throw new Exception("Не равно double.MinValue");
             }
+
             if (dp.Y != double.MinValue)
             {
                 throw new Exception("Не равно double.MinValue");
             }
+
             dp = new Diapason(double.MaxValue, double.MaxValue);
             if (dp.X != double.MaxValue)
             {
                 throw new Exception("Не равно double.MaxValue");
             }
+
             if (dp.Y != double.MaxValue)
             {
                 throw new Exception("Не равно double.MaxValue");
@@ -68,6 +72,7 @@ namespace UnitTestLaba7
                 {
                     throw new Exception("Не равно значению");
                 }
+
                 if (dp.Y != y)
                 {
                     throw new Exception("Не равно значению");
@@ -280,12 +285,14 @@ namespace UnitTestLaba7
                     else
                         y = rnd.NextDouble() * double.MaxValue;
                 } while (x > y || double.IsInfinity(y - x));
+
                 da = new DiapasonArray(rnd.Next(1000), x, y);
                 foreach (Diapason dp in da.arr)
                 {
                     if (dp.X < x || dp.X > y || dp.Y < x || dp.Y > y)
                         throw new Exception("Вне диапазона");
                 }
+
                 da.MaxValue();
             }
         }

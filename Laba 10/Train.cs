@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Laba_10
 {
-    internal class Train : Vehicle
+    public class Train : Vehicle
     {
         private int[] _numberOfPassengersInTheCarriage;
         private string[] _stations;
@@ -24,11 +24,19 @@ namespace Laba_10
         public Train() : base()
         {
             _stations = default;
+            _numberOfPassengersInTheCarriage = default;
         }
 
         public Train(string name, int passengerCapacity, string[] stations) : base(name, passengerCapacity)
         {
             Stations = stations;
+            _numberOfPassengersInTheCarriage = default;
+        }
+
+        public Train(string name, int passengerCapacity, string[] stations, int[] numberOfPassengersInTheCarriage) : base(name, passengerCapacity)
+        {
+            Stations = stations;
+            _numberOfPassengersInTheCarriage = numberOfPassengersInTheCarriage;
         }
 
         private protected void PrintMas(string[] mas, bool bracket = true, bool inOneLine = false)
@@ -74,10 +82,16 @@ namespace Laba_10
         public override void Show()
         {
             base.Show();
-            Console.Write(", Stations: ");
-            PrintMas(_stations, inOneLine: true);
-            Console.Write(", Number of passengers in the carriage: ");
-            PrintMas(_numberOfPassengersInTheCarriage, inOneLine: true);
+            if (Stations != null)
+            {
+                Console.Write(", Stations: ");
+                PrintMas(_stations, inOneLine: true);
+            }
+            if (NumberOfPassengersInTheCarriage != null)
+            {
+                Console.Write(", Number of passengers in the carriage: ");
+                PrintMas(_numberOfPassengersInTheCarriage, inOneLine: true);
+            }
         }
 
         private protected new static Random random = new Random();

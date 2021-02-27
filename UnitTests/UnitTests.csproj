@@ -4,6 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <StartupObject></StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Laba 10\Laba 10.csproj" />
     <ProjectReference Include="..\Лаба 7\Лаба 9.csproj" />
   </ItemGroup>
-
 </Project>

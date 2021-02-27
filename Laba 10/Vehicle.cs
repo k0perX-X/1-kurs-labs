@@ -2,7 +2,7 @@
 
 namespace Laba_10
 {
-    internal class Vehicle : IInit, ICloneable
+    public class Vehicle : IInit, ICloneable
     {
         private int _passengerCapacity;
         private string _name;
@@ -23,6 +23,7 @@ namespace Laba_10
         {
             Name = default;
             PassengerCapacity = 0;
+            Passengers = default;
         }
 
         public Passenger[] Passengers = default;
@@ -31,6 +32,7 @@ namespace Laba_10
         {
             Name = name;
             PassengerCapacity = passengerCapacity;
+            Passengers = default;
         }
 
         public Vehicle(string name, int passengerCapacity, Passenger[] passengers)
@@ -73,17 +75,29 @@ namespace Laba_10
 
         public object Clone()
         {
-            Passenger[] passengers = new Passenger[Passengers.Length];
-            for (int i = 0; i < passengers.Length; i++)
+            if (Passengers != null)
             {
-                passengers[i] = (Passenger)Passengers[i].Clone();
+                Passenger[] passengers = new Passenger[Passengers.Length];
+                for (int i = 0; i < passengers.Length; i++)
+                {
+                    passengers[i] = (Passenger)Passengers[i].Clone();
+                }
+                return new Vehicle
+                {
+                    Name = this.Name,
+                    PassengerCapacity = this.PassengerCapacity,
+                    Passengers = passengers
+                };
             }
-            return new Vehicle
+            else
             {
-                Name = this.Name,
-                PassengerCapacity = this.PassengerCapacity,
-                Passengers = passengers
-            };
+                return new Vehicle
+                {
+                    Name = this.Name,
+                    PassengerCapacity = this.PassengerCapacity,
+                    Passengers = default
+                };
+            }
         }
 
         public object ShallowCopy()

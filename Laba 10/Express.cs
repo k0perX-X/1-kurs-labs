@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Laba_10
 {
-    internal class Express : Train
+    public class Express : Train
     {
         private double speed;
 
@@ -19,7 +17,12 @@ namespace Laba_10
             speed = 0;
         }
 
-        public Express(string name, int passenger_capacity, string[] stations, double speed) : base(name, passenger_capacity, stations)
+        public Express(string name, int passengerCapacity, string[] stations, double speed) : base(name, passengerCapacity, stations)
+        {
+            Speed = speed;
+        }
+
+        public Express(string name, int passengerCapacity, string[] stations, int[] numberOfPassengersInTheCarriage, double speed) : base(name, passengerCapacity, stations, numberOfPassengersInTheCarriage)
         {
             Speed = speed;
         }
