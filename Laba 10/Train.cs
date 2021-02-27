@@ -31,7 +31,7 @@ namespace Laba_10
             Stations = stations;
         }
 
-        private void PrintMas(string[] mas, bool bracket = true, bool inOneLine = false)
+        private protected void PrintMas(string[] mas, bool bracket = true, bool inOneLine = false)
         {
             if (mas.Length > 0)
             {
@@ -51,7 +51,7 @@ namespace Laba_10
                     Console.Write("Массив пустой");
         }
 
-        private void PrintMas(int[] mas, bool bracket = true, bool inOneLine = false)
+        private protected void PrintMas(int[] mas, bool bracket = true, bool inOneLine = false)
         {
             if (mas.Length > 0)
             {
