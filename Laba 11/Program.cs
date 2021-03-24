@@ -38,6 +38,7 @@ namespace Laba_11
                         Console.SetCursorPosition(0, Console.CursorTop + Console.WindowHeight + 2);
                         Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
                         {
+                            Task2.Run();
                         }
                         Console.WriteLine();
                         return true;

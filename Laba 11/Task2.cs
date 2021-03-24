@@ -1,12 +1,13 @@
 ﻿using Laba_10;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Laba_11
 {
-    public static class Task1
+    public static class Task2
     {
-        private static Hashtable ht = new Hashtable(10);
+        private static Queue<Vehicle> queue = new Queue<Vehicle>(10);
 
         private static Vehicle vehicle = new Vehicle();
         private static Car car = new Car();
@@ -27,10 +28,10 @@ namespace Laba_11
 
         public static void Run()
         {
-            while (MenuTask1()) { }
+            while (MenuTask2()) { }
         }
 
-        private static bool MenuTask1()
+        private static bool MenuTask2()
         {
             try
             {
@@ -38,8 +39,8 @@ namespace Laba_11
                 Console.WriteLine("\nМЕНЮ ЗАДАЧИ  1\n");
                 Console.ResetColor();
                 Console.Write("   1.  Добавить в коллекцию\n" +
-                              "   2.  Удалить из коллекции\n" +
-                              "   3.  Вывести элемент коллекции\n" +
+                              "   2.  Удалить и вывести следующий элемент из очереди\n" +
+                              "   3.  Вывести следующий элемент очереди\n" +
                               "   4.  Печать количества элементов типа Vehicle\n" +
                               "   5.  Печать количества элементов типа Car\n" +
                               "   6.  Печать количества элементов типа Train\n" +
@@ -80,16 +81,9 @@ namespace Laba_11
                         Console.SetCursorPosition(0, Console.CursorTop + Console.WindowHeight + 2);
                         Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
                         {
-                            if (ht.Count != 0)
+                            if (queue.Count != 0)
                             {
-                                Console.Write("Список ключей: ");
-                                PrintICollection(ht.Keys, inOneLine: true);
-                                Console.Write("\nВведите название элемента: ");
-                                object o = Console.ReadLine();
-                                if (ht.Contains(o))
-                                    ht.Remove(o);
-                                else
-                                    Console.WriteLine("Такого элемента нет");
+                                queue.Dequeue().Show();
                             }
                             else
                             {
@@ -105,22 +99,9 @@ namespace Laba_11
                         Console.SetCursorPosition(0, Console.CursorTop + Console.WindowHeight + 2);
                         Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
                         {
-                            if (ht.Count != 0)
+                            if (queue.Count != 0)
                             {
-                                Console.Write("Список ключей: ");
-                                PrintICollection(ht.Keys, inOneLine: true);
-                                Console.Write("\nВведите название элемента: ");
-                                object x = Console.ReadLine();
-                                while (!ht.ContainsKey(x))
-                                {
-                                    Console.ForegroundColor = ConsoleColor.Red;
-                                    Console.WriteLine("Такого элемента нет в коллекции");
-                                    Console.ResetColor();
-                                    Console.Write("Введите название элемента: ");
-                                    x = Console.ReadLine();
-                                }
-                                ((IInit)ht[x]).Show();
-                                Console.WriteLine();
+                                queue.Peek().Show();
                             }
                             else
                             {
@@ -137,7 +118,7 @@ namespace Laba_11
                         Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
                         {
                             int count = 0;
-                            foreach (object obj in ht.Values)
+                            foreach (object obj in queue)
                                 if (obj.GetType() == typeof(Vehicle))
                                     count++;
                             Console.WriteLine($"Количество Vehicle в коллекции {count}");
@@ -152,7 +133,7 @@ namespace Laba_11
                         Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
                         {
                             int count = 0;
-                            foreach (object obj in ht.Values)
+                            foreach (object obj in queue)
                                 if (obj.GetType() == typeof(Car))
                                     count++;
                             Console.WriteLine($"Количество Vehicle в коллекции {count}");
@@ -167,7 +148,7 @@ namespace Laba_11
                         Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
                         {
                             int count = 0;
-                            foreach (object obj in ht.Values)
+                            foreach (object obj in queue)
                                 if (obj.GetType() == typeof(Train))
                                     count++;
                             Console.WriteLine($"Количество Vehicle в коллекции {count}");
@@ -182,7 +163,7 @@ namespace Laba_11
                         Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
                         {
                             int count = 0;
-                            foreach (object obj in ht.Values)
+                            foreach (object obj in queue)
                                 if (obj.GetType() == typeof(Express))
                                     count++;
                             Console.WriteLine($"Количество Vehicle в коллекции {count}");
@@ -196,7 +177,7 @@ namespace Laba_11
                         Console.SetCursorPosition(0, Console.CursorTop + Console.WindowHeight + 2);
                         Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
                         {
-                            foreach (object obj in ht.Values)
+                            foreach (object obj in queue)
                                 if (obj.GetType() == typeof(Vehicle))
                                 {
                                     ((IInit)obj).Show();
@@ -212,7 +193,7 @@ namespace Laba_11
                         Console.SetCursorPosition(0, Console.CursorTop + Console.WindowHeight + 2);
                         Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
                         {
-                            foreach (object obj in ht.Values)
+                            foreach (object obj in queue)
                                 if (obj.GetType() == typeof(Car))
                                 {
                                     ((IInit)obj).Show();
@@ -228,7 +209,7 @@ namespace Laba_11
                         Console.SetCursorPosition(0, Console.CursorTop + Console.WindowHeight + 2);
                         Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
                         {
-                            foreach (object obj in ht.Values)
+                            foreach (object obj in queue)
                                 if (obj.GetType() == typeof(Train))
                                 {
                                     ((IInit)obj).Show();
@@ -244,7 +225,7 @@ namespace Laba_11
                         Console.SetCursorPosition(0, Console.CursorTop + Console.WindowHeight + 2);
                         Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
                         {
-                            foreach (object obj in ht.Values)
+                            foreach (object obj in queue)
                                 if (obj.GetType() == typeof(Express))
                                 {
                                     ((IInit)obj).Show();
@@ -260,7 +241,7 @@ namespace Laba_11
                         Console.SetCursorPosition(0, Console.CursorTop + Console.WindowHeight + 2);
                         Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
                         {
-                            foreach (object obj in ht.Values)
+                            foreach (object obj in queue)
                             {
                                 ((IInit)obj).Show();
                                 Console.WriteLine();
@@ -275,19 +256,19 @@ namespace Laba_11
                         Console.SetCursorPosition(0, Console.CursorTop + Console.WindowHeight + 2);
                         Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
                         {
-                            Hashtable htCopy = new Hashtable(ht.Count);
-                            foreach (object htKey in ht.Keys)
+                            Queue<Vehicle> queueCopy = new Queue<Vehicle>(10);
+                            foreach (object o in queue)
                             {
-                                htCopy.Add(htKey, ((ICloneable)ht[htKey]).Clone());
+                                queueCopy.Enqueue((Vehicle)((ICloneable)o).Clone());
                             }
                             Console.WriteLine("Изначальное значение: ");
-                            foreach (object obj in ht.Values)
+                            foreach (object obj in queue)
                             {
                                 ((IInit)obj).Show();
                                 Console.WriteLine();
                             }
                             Console.WriteLine("Клонированное: ");
-                            foreach (object obj in htCopy.Values)
+                            foreach (object obj in queueCopy)
                             {
                                 ((IInit)obj).Show();
                                 Console.WriteLine();
@@ -328,65 +309,25 @@ namespace Laba_11
                 {
                     case 1:
                         {
-                            Console.Write("Введите название элемента: ");
-                            object x = Console.ReadLine();
-                            while (ht.ContainsKey(x))
-                            {
-                                Console.ForegroundColor = ConsoleColor.Red;
-                                Console.WriteLine("Элемент с таким названием уже есть в коллекции");
-                                Console.ResetColor();
-                                Console.Write("Введите название элемента: ");
-                                x = Console.ReadLine();
-                            }
-                            ht.Add(x, vehicle.Init());
+                            queue.Enqueue((Vehicle)vehicle.Init());
                         }
                         return false;
 
                     case 2:
                         {
-                            Console.Write("Введите название элемента: ");
-                            object x = Console.ReadLine();
-                            while (ht.ContainsKey(x))
-                            {
-                                Console.ForegroundColor = ConsoleColor.Red;
-                                Console.WriteLine("Элемент с таким названием уже есть в коллекции");
-                                Console.ResetColor();
-                                Console.Write("Введите название элемента: ");
-                                x = Console.ReadLine();
-                            }
-                            ht.Add(x, car.Init());
+                            queue.Enqueue((Vehicle)car.Init());
                         }
                         return false;
 
                     case 3:
                         {
-                            Console.Write("Введите название элемента: ");
-                            object x = Console.ReadLine();
-                            while (ht.ContainsKey(x))
-                            {
-                                Console.ForegroundColor = ConsoleColor.Red;
-                                Console.WriteLine("Элемент с таким названием уже есть в коллекции");
-                                Console.ResetColor();
-                                Console.Write("Введите название элемента: ");
-                                x = Console.ReadLine();
-                            }
-                            ht.Add(x, train.Init());
+                            queue.Enqueue((Vehicle)train.Init());
                         }
                         return false;
 
                     case 4:
                         {
-                            Console.Write("Введите название элемента: ");
-                            object x = Console.ReadLine();
-                            while (ht.ContainsKey(x))
-                            {
-                                Console.ForegroundColor = ConsoleColor.Red;
-                                Console.WriteLine("Элемент с таким названием уже есть в коллекции");
-                                Console.ResetColor();
-                                Console.Write("Введите название элемента: ");
-                                x = Console.ReadLine();
-                            }
-                            ht.Add(x, express.Init());
+                            queue.Enqueue((Vehicle)express.Init());
                         }
                         return false;
 
