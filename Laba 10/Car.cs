@@ -32,9 +32,9 @@ namespace Laba_10
 
         public override object Init()
         {
-            Vehicle b = (Vehicle)base.Init();
-            string[] names = new[] { "Ламбарджини", "Ферари", "БМВ", "Легковая", "Спортивная", "Гиперкар", "Тарантайка" };
-            Passenger[] passengers = new Passenger[random.Next(1, 10)];
+            string[] names = new[] { "Ламбарджини", "Ферари", "БМВ", "Легковая", "Спортивная", "Гиперкар", "Тарантайка", "Десятка", "Ведро с гайками", "Гранта", "Веста", "Поло", "Фьюжн", "Форд", "Фиат" };
+            int passengerCapacity = random.Next(2, 11);
+            Passenger[] passengers = new Passenger[random.Next(0, passengerCapacity)];
             Passenger passenger = new Passenger();
             for (int i = 0; i < passengers.Length; i++)
             {
@@ -43,8 +43,8 @@ namespace Laba_10
             Car car = new Car
             {
                 Name = names[random.Next(0, names.Length)],
-                PassengerCapacity = b.PassengerCapacity,
-                NumberOfDoors = random.Next(1, passengers.Length),
+                PassengerCapacity = passengerCapacity,
+                NumberOfDoors = random.Next(2, 10),
                 Passengers = passengers
             };
             return car;
@@ -82,6 +82,11 @@ namespace Laba_10
         public override object ShallowCopy()
         {
             return this.MemberwiseClone();
+        }
+
+        public override string ToString()
+        {
+            return base.ToString() + $", Number of doors: {_numberOfDoors}";
         }
 
         public Vehicle BaseVehicle

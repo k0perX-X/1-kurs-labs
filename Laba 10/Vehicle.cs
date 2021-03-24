@@ -44,18 +44,18 @@ namespace Laba_10
 
         public virtual void Show()
         {
-            Console.Write($"Name: {_name}, Passenger capacity: {_passengerCapacity}");
+            Console.Write($"Name: {_name}, Passenger capacity: {_passengerCapacity}, Passengers: [");
             if (Passengers != null)
-            {
-                Console.Write(", Passengers: [");
-                for (int i = 0; i < Passengers.Length - 1; i++)
+                if (Passengers.Length != 0)
                 {
-                    Passengers[i].Show();
-                    Console.Write("; ");
+                    for (int i = 0; i < Passengers.Length - 2; i++)
+                    {
+                        Passengers[i].Show();
+                        Console.Write("; ");
+                    }
+                    Passengers[^1].Show();
                 }
-                Passengers[^1].Show();
-                Console.Write("]");
-            }
+            Console.Write("]");
         }
 
         private protected static Random random = new Random();
@@ -98,6 +98,50 @@ namespace Laba_10
                     Passengers = default
                 };
             }
+        }
+
+        public override string ToString()
+        {
+            string s = $"Name: {_name}, Passenger capacity: {_passengerCapacity}, Passengers: [";
+            if (Passengers != default)
+                if (Passengers.Length > 0)
+                {
+                    for (int i = 0; i < Passengers.Length - 2; i++)
+                    {
+                        s += Passengers[i].ToString() + "; ";
+                    }
+
+                    s += Passengers[^1].ToString();
+                }
+            return s + "]";
+        }
+
+        public static bool operator ==(Vehicle v1, Vehicle v2)
+        {
+            if (v1.Passengers.Length != v2.Passengers.Length)
+                return false;
+            for (int i = 0; i < v1.Passengers.Length; i++)
+            {
+                if (v1.Passengers[i] != v2.Passengers[i])
+                    return false;
+            }
+            if (v1.Name != v2.Name || v1.PassengerCapacity != v2.PassengerCapacity)
+                return false;
+            return true;
+        }
+
+        public static bool operator !=(Vehicle v1, Vehicle v2)
+        {
+            if (v1.Passengers.Length != v2.Passengers.Length)
+                return true;
+            for (int i = 0; i < v1.Passengers.Length; i++)
+            {
+                if (v1.Passengers[i] != v2.Passengers[i])
+                    return true;
+            }
+            if (v1.Name != v2.Name || v1.PassengerCapacity != v2.PassengerCapacity)
+                return true;
+            return false;
         }
 
         public virtual object ShallowCopy()

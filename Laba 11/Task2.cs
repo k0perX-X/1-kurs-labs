@@ -37,7 +37,7 @@ namespace Laba_11
             try
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("\nМЕНЮ ЗАДАЧИ  1\n");
+                Console.WriteLine("\nМЕНЮ ЗАДАЧИ  2\n");
                 Console.ResetColor();
                 Console.Write("   1.  Добавить в коллекцию\n" +
                               "   2.  Удалить и вывести следующий элемент из очереди\n" +
