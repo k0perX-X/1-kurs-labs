@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Laba_11
 {
@@ -51,7 +52,8 @@ namespace Laba_11
                               "   11. Печать всех элементов типа Express\n" +
                               "   12. Печать всей коллекции\n" +
                               "   13. Проверка создания копии коллекции\n" +
-                              "   14. Выйти в основное меню\n" +
+                              "   14. Сортировка коллекции\n" +
+                              "   15. Выйти в основное меню\n" +
                               "\nВыберите задание: ");
                 string str;
                 switch (int.Parse(Console.ReadLine()))
@@ -277,6 +279,22 @@ namespace Laba_11
                         return true;
 
                     case 14:
+                        str = "=";
+                        str = str.PadRight(Console.WindowWidth, '=');
+                        Console.WriteLine(str);
+                        Console.SetCursorPosition(0, Console.CursorTop + Console.WindowHeight + 2);
+                        Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
+                        {
+                            queue = new Queue<Vehicle>(queue.OrderBy(x => x.PassengerCapacity));
+                        }
+                        return true;
+
+                    case 15:
+                        str = "=";
+                        str = str.PadRight(Console.WindowWidth, '=');
+                        Console.WriteLine(str);
+                        Console.SetCursorPosition(0, Console.CursorTop + Console.WindowHeight + 2);
+                        Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
                         return false;
 
                     default:

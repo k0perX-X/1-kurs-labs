@@ -83,5 +83,13 @@ namespace Laba_10
         {
             return this.MemberwiseClone();
         }
+
+        public Vehicle BaseVehicle
+        {
+            get
+            {
+                return new Vehicle(Name, PassengerCapacity, Passengers);
+            }
+        }
     }
 }

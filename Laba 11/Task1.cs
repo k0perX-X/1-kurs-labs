@@ -296,6 +296,11 @@ namespace Laba_11
                         return true;
 
                     case 14:
+                        str = "=";
+                        str = str.PadRight(Console.WindowWidth, '=');
+                        Console.WriteLine(str);
+                        Console.SetCursorPosition(0, Console.CursorTop + Console.WindowHeight + 2);
+                        Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
                         return false;
 
                     default:
