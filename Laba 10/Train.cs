@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Laba_10
 {
@@ -109,6 +107,7 @@ namespace Laba_10
                 "Заводская", "Воздушная", "Хлебозаводская", "Народная", "32 км", "Центральная",
                 "Конечная"
             };
+
             int numberOfStations = random.Next(0, 4);
             string[] sts = new string[numberOfStations];
             for (int i = 0; i < numberOfStations; i++)
@@ -116,11 +115,21 @@ namespace Laba_10
                 sts[i] = st[random.Next(0, numberOfStations)];
             }
 
-            int numberOfNumberOfPassengersInTheCarriage = random.Next(1, 10);
-            int[] numberOfPassengersInTheCarriage = new int[numberOfNumberOfPassengersInTheCarriage];
-            for (int i = 0; i < numberOfNumberOfPassengersInTheCarriage; i++)
+            int[] numberOfPassengersInTheCarriage = new int[random.Next(1, 10)];
+            for (int i = 0; i < numberOfPassengersInTheCarriage.Length; i++)
             {
                 numberOfPassengersInTheCarriage[i] = random.Next(0, 100);
+            }
+
+            int numberOfPassengersInTheCarriageSumm = 0;
+            for (int i = 0; i < numberOfPassengersInTheCarriage.Length; i++)
+                numberOfPassengersInTheCarriageSumm += numberOfPassengersInTheCarriage[i];
+
+            Passenger[] passengers = new Passenger[numberOfPassengersInTheCarriageSumm];
+            Passenger passenger = new Passenger();
+            for (int i = 0; i < passengers.Length; i++)
+            {
+                passengers[i] = (Passenger)passenger.Init();
             }
 
             Train train = new Train
@@ -128,9 +137,46 @@ namespace Laba_10
                 Name = names[random.Next(0, names.Length)],
                 PassengerCapacity = b.PassengerCapacity,
                 Stations = sts,
+                Passengers = passengers,
                 NumberOfPassengersInTheCarriage = numberOfPassengersInTheCarriage
             };
             return train;
+        }
+
+        public override object Clone()
+        {
+            if (Passengers != null)
+            {
+                Passenger[] passengers = new Passenger[Passengers.Length];
+                for (int i = 0; i < passengers.Length; i++)
+                {
+                    passengers[i] = (Passenger)Passengers[i].Clone();
+                }
+                return new Train
+                {
+                    Name = this.Name,
+                    PassengerCapacity = this.PassengerCapacity,
+                    Passengers = passengers,
+                    Stations = this._stations,
+                    NumberOfPassengersInTheCarriage = this._numberOfPassengersInTheCarriage
+                };
+            }
+            else
+            {
+                return new Train
+                {
+                    Name = this.Name,
+                    PassengerCapacity = this.PassengerCapacity,
+                    Passengers = default,
+                    Stations = this._stations,
+                    NumberOfPassengersInTheCarriage = this._numberOfPassengersInTheCarriage
+                };
+            }
+        }
+
+        public override object ShallowCopy()
+        {
+            return this.MemberwiseClone();
         }
     }
 }

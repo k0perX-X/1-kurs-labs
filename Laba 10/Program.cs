@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.Collections;
+using System.Linq;
 
 namespace Laba_10
 {

@@ -73,7 +73,7 @@ namespace Laba_10
             return vehicle;
         }
 
-        public object Clone()
+        public virtual object Clone()
         {
             if (Passengers != null)
             {
@@ -100,7 +100,7 @@ namespace Laba_10
             }
         }
 
-        public object ShallowCopy()
+        public virtual object ShallowCopy()
         {
             return this.MemberwiseClone();
         }

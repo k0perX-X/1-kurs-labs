@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Laba_10
 {
-    public class Car : Vehicle, IInit
+    public class Car : Vehicle
     {
         private int _numberOfDoors;
 
@@ -36,8 +34,54 @@ namespace Laba_10
         {
             Vehicle b = (Vehicle)base.Init();
             string[] names = new[] { "Ламбарджини", "Ферари", "БМВ", "Легковая", "Спортивная", "Гиперкар", "Тарантайка" };
-            Car car = new Car { Name = names[random.Next(0, names.Length)], PassengerCapacity = b.PassengerCapacity, NumberOfDoors = random.Next(1, 10) };
+            Passenger[] passengers = new Passenger[random.Next(1, 10)];
+            Passenger passenger = new Passenger();
+            for (int i = 0; i < passengers.Length; i++)
+            {
+                passengers[i] = (Passenger)passenger.Init();
+            }
+            Car car = new Car
+            {
+                Name = names[random.Next(0, names.Length)],
+                PassengerCapacity = b.PassengerCapacity,
+                NumberOfDoors = random.Next(1, passengers.Length),
+                Passengers = passengers
+            };
             return car;
+        }
+
+        public override object Clone()
+        {
+            if (Passengers != null)
+            {
+                Passenger[] passengers = new Passenger[Passengers.Length];
+                for (int i = 0; i < passengers.Length; i++)
+                {
+                    passengers[i] = (Passenger)Passengers[i].Clone();
+                }
+                return new Car
+                {
+                    Name = this.Name,
+                    PassengerCapacity = this.PassengerCapacity,
+                    NumberOfDoors = this._numberOfDoors,
+                    Passengers = passengers
+                };
+            }
+            else
+            {
+                return new Car
+                {
+                    Name = this.Name,
+                    PassengerCapacity = this.PassengerCapacity,
+                    NumberOfDoors = this._numberOfDoors,
+                    Passengers = default
+                };
+            }
+        }
+
+        public override object ShallowCopy()
+        {
+            return this.MemberwiseClone();
         }
     }
 }

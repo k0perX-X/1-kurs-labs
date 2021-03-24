@@ -4,17 +4,17 @@ namespace Laba_10
 {
     public class Express : Train
     {
-        private double speed;
+        private double _speed;
 
         public double Speed
         {
-            get => speed;
-            set => speed = value;
+            get => _speed;
+            set => _speed = value;
         }
 
         public Express() : base()
         {
-            speed = 0;
+            _speed = 0;
         }
 
         public Express(string name, int passengerCapacity, string[] stations, double speed) : base(name, passengerCapacity, stations)
@@ -30,10 +30,10 @@ namespace Laba_10
         public override void Show()
         {
             base.Show();
-            Console.Write($", Speed: {speed}");
+            Console.Write($", Speed: {_speed}");
         }
 
-        private protected new static Random random = new Random();
+        private protected static Random Random = new Random();
 
         public override object Init()
         {
@@ -45,9 +45,48 @@ namespace Laba_10
                 PassengerCapacity = b.PassengerCapacity,
                 Stations = b.Stations,
                 NumberOfPassengersInTheCarriage = b.NumberOfPassengersInTheCarriage,
-                Speed = random.Next(50, 501)
+                Passengers = b.Passengers,
+                Speed = Random.Next(50, 501)
             };
             return express;
+        }
+
+        public override object Clone()
+        {
+            if (Passengers != null)
+            {
+                Passenger[] passengers = new Passenger[Passengers.Length];
+                for (int i = 0; i < passengers.Length; i++)
+                {
+                    passengers[i] = (Passenger)Passengers[i].Clone();
+                }
+                return new Express
+                {
+                    Name = this.Name,
+                    PassengerCapacity = this.PassengerCapacity,
+                    Passengers = passengers,
+                    Stations = this.Stations,
+                    NumberOfPassengersInTheCarriage = this.NumberOfPassengersInTheCarriage,
+                    Speed = this.Speed
+                };
+            }
+            else
+            {
+                return new Express
+                {
+                    Name = this.Name,
+                    PassengerCapacity = this.PassengerCapacity,
+                    Passengers = default,
+                    Stations = this.Stations,
+                    NumberOfPassengersInTheCarriage = this.NumberOfPassengersInTheCarriage,
+                    Speed = this.Speed
+                };
+            }
+        }
+
+        public override object ShallowCopy()
+        {
+            return this.MemberwiseClone();
         }
     }
 }
