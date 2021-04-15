@@ -4,7 +4,7 @@ using Laba_10;
 
 namespace Laba_12
 {
-    public partial class Task1
+    public unsafe partial class Task1
     {
         private static Vehicle vehicle = new Vehicle();
         private static Car car = new Car();
@@ -13,6 +13,13 @@ namespace Laba_12
 
         private UnidirectionalList<Vehicle> unidirectionalList = new UnidirectionalList<Vehicle>();
         private BidirectionalList<Vehicle> bidirectionalList = new BidirectionalList<Vehicle>();
+
+        private static int TreeFunc(Vehicle obj)
+        {
+            return obj.PassengerCapacity;
+        }
+
+        private Tree<Vehicle> tree = new Tree<Vehicle>(&TreeFunc);
 
         private bool Menu()
         {
@@ -31,9 +38,16 @@ namespace Laba_12
                               "   8.  Добавить рандомные элементы двунаправленный список\n" +
                               "   9.  Вывести двунаправленный список\n" +
                               "   10. Удалить элемент из двунаправленного списка по индексу\n" +
-                              "   11. Добавить в двунаправленный список элемент по номеру\n" +
+                              "   11. Добавить в двунаправленный список элемент по индексу\n" +
                               "   12. Очистить двунаправленный список\n" +
-                              "   13. Вернуться в главное меню\n" +
+                              "   13. Создать дерево поиска из рандомных элементов\n" +
+                              "   14. Добавить элемент в дерево поиска\n" +
+                              "   15. Вывести дерево поиска\n" +
+                              "   16. Удалить элемент из дерева по значению\n" +
+                              "   17. Сбалансировать дерево\n" +
+                              "   18. Вывести минимальное и максимальное значения \n" +
+                              "   19. Очистить дерево\n" +
+                              "   20. Вернуться в главное меню\n" +
                               "\nВыберите задание: ");
                 string str;
                 switch (int.Parse(Console.ReadLine()))
@@ -362,6 +376,133 @@ namespace Laba_12
                         return true;
 
                     case 13:
+                        str = "=";
+                        str = str.PadRight(Console.WindowWidth, '=');
+                        Console.WriteLine(str);
+                        Console.SetCursorPosition(0, Console.CursorTop + Console.WindowHeight + 2);
+                        Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
+                        {
+                            tree = new Tree<Vehicle>(&TreeFunc);
+                            Console.Write("Введите количество элементов: ");
+                            int x;
+                            Random random = new Random();
+                            while (!int.TryParse(Console.ReadLine(), out x))
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine("Неверный формат числа");
+                                Console.ResetColor();
+                            }
+
+                            for (int i = 0; i < x; i++)
+                            {
+                                switch (random.Next(0, 4))
+                                {
+                                    case 0:
+                                        tree.Add((Vehicle)vehicle.Init());
+                                        //Debug.Print("0");
+                                        break;
+
+                                    case 1:
+                                        tree.Add((Car)car.Init());
+                                        //Debug.Print("1");
+                                        break;
+
+                                    case 2:
+                                        tree.Add((Train)train.Init());
+                                        //Debug.Print("2");
+                                        break;
+
+                                    case 3:
+                                        tree.Add((Express)express.Init());
+                                        //Debug.Print("3");
+                                        break;
+                                }
+                            }
+                            Console.WriteLine("Получившееся дерево:\n" + tree);
+                        }
+                        return true;
+
+                    case 14:
+                        str = "=";
+                        str = str.PadRight(Console.WindowWidth, '=');
+                        Console.WriteLine(str);
+                        Console.SetCursorPosition(0, Console.CursorTop + Console.WindowHeight + 2);
+                        Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
+                        {
+                            while (Menu3()) { }
+                            Console.WriteLine("Получившееся дерево:\n" + tree);
+                        }
+                        return true;
+
+                    case 15:
+                        str = "=";
+                        str = str.PadRight(Console.WindowWidth, '=');
+                        Console.WriteLine(str);
+                        Console.SetCursorPosition(0, Console.CursorTop + Console.WindowHeight + 2);
+                        Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
+                        {
+                            Console.WriteLine("Дерево поиска:\n" + tree);
+                        }
+                        return true;
+
+                    case 16:
+                        str = "=";
+                        str = str.PadRight(Console.WindowWidth, '=');
+                        Console.WriteLine(str);
+                        Console.SetCursorPosition(0, Console.CursorTop + Console.WindowHeight + 2);
+                        Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
+                        {
+                            Console.Write("Введите значение элемента: ");
+                            int x;
+                            Random random = new Random();
+                            while (!int.TryParse(Console.ReadLine(), out x))
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine("Неверный формат числа");
+                                Console.ResetColor();
+                            }
+                            tree.Remove(x);
+                            Console.WriteLine("Получившееся дерево:\n" + tree);
+                        }
+                        return true;
+
+                    case 17:
+                        str = "=";
+                        str = str.PadRight(Console.WindowWidth, '=');
+                        Console.WriteLine(str);
+                        Console.SetCursorPosition(0, Console.CursorTop + Console.WindowHeight + 2);
+                        Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
+                        {
+                            tree.ConvertToBalanced();
+                            Console.WriteLine("Получившееся дерево:\n" + tree);
+                        }
+                        return true;
+
+                    case 18:
+                        str = "=";
+                        str = str.PadRight(Console.WindowWidth, '=');
+                        Console.WriteLine(str);
+                        Console.SetCursorPosition(0, Console.CursorTop + Console.WindowHeight + 2);
+                        Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
+                        {
+                            Console.WriteLine("Минимальное значение:\n" + tree.min());
+                            Console.WriteLine("Максимальное значение:\n" + tree.max());
+                        }
+                        return true;
+
+                    case 19:
+                        str = "=";
+                        str = str.PadRight(Console.WindowWidth, '=');
+                        Console.WriteLine(str);
+                        Console.SetCursorPosition(0, Console.CursorTop + Console.WindowHeight + 2);
+                        Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
+                        {
+                            tree = new Tree<Vehicle>(&TreeFunc);
+                            GC.Collect();
+                        }
+                        return true;
+
+                    case 20:
                         return false;
 
                     default:
@@ -409,6 +550,54 @@ namespace Laba_12
 
                     case 4:
                         bidirectionalList.Add(i, (Express)express.Init());
+                        //Debug.Print("3");
+                        return false;
+
+                    default:
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Неверный формат числа");
+                        Console.ResetColor();
+                        Console.WriteLine();
+                        return true;
+                }
+            }
+            catch (FormatException)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Неверный формат числа");
+                Console.ResetColor();
+                return true;
+            }
+        }
+
+        private bool Menu3()
+        {
+            try
+            {
+                Console.Write("\n   1. Добавить в двунаправленный список Vehicle\n" +
+                              "   2. Добавить в двунаправленный список Car\n" +
+                              "   3. Добавить в двунаправленный список Train\n" +
+                              "   4. Добавить в двунаправленный список Express\n" +
+                              "\nВыберите: ");
+                switch (int.Parse(Console.ReadLine()))
+                {
+                    case 1:
+                        tree.Add((Vehicle)vehicle.Init());
+                        //Debug.Print("0");
+                        return false;
+
+                    case 2:
+                        tree.Add((Car)car.Init());
+                        //Debug.Print("1");
+                        return false;
+
+                    case 3:
+                        tree.Add((Train)train.Init());
+                        //Debug.Print("2");
+                        return false;
+
+                    case 4:
+                        tree.Add((Express)express.Init());
                         //Debug.Print("3");
                         return false;
 

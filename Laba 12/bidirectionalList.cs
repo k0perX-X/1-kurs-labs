@@ -43,7 +43,7 @@ namespace Laba_12
 
                 public override string ToString()
                 {
-                    return data + "\n";
+                    return data + "\n\n";
                 }
             }
 

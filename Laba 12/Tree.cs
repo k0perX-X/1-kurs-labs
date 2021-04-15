@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Laba_12
 {
@@ -30,7 +31,7 @@ namespace Laba_12
 
                 public override string ToString()
                 {
-                    return data + "\n";
+                    return data + "\n\n";
                 }
             }
 
@@ -50,7 +51,7 @@ namespace Laba_12
                 }
             }
 
-            private Tree(delegate*<T, int> func)
+            public Tree(delegate*<T, int> func)
             {
                 this.func = func;
             }
@@ -65,7 +66,7 @@ namespace Laba_12
                 {
                     Point<T> nextPoint = root;
                     bool bolshe;
-                    if (func(obj) < func(nextPoint.data))
+                    if (func(obj) > func(nextPoint.data))
                         bolshe = true;
                     else
                         bolshe = false;
@@ -75,7 +76,7 @@ namespace Laba_12
                             nextPoint = nextPoint.right;
                         else
                             nextPoint = nextPoint.left;
-                        if (func(obj) < func(nextPoint.data))
+                        if (func(obj) > func(nextPoint.data))
                             bolshe = true;
                         else
                             bolshe = false;
@@ -85,26 +86,29 @@ namespace Laba_12
                     else
                         nextPoint.left = new Point<T>(obj);
                 }
+
+                _length++;
             }
 
             public override string ToString()
             {
                 string s = "";
 
-                void f(Point<T> point, ref string s, string route)
+                void f(Point<T> point, string route)
                 {
                     if (point.left != null)
-                        f(point.left, ref s, route + "L");
+                        f(point.left, route + "L");
+                    //Debug.Print(route + ": " + point);
+                    s += route + ": " + point;
                     if (point.right != null)
-                        f(point.right, ref s, route + "R");
-                    s += $"{route}:  {point.data}";
+                        f(point.right, route + "R");
                 }
 
                 if ((object)root.data == (object)baseelement)
                 {
                     return "";
                 }
-                f(root, ref s, "");
+                f(root, "");
                 return s;
             }
 
@@ -130,33 +134,77 @@ namespace Laba_12
                 }
                 T[] array = new T[_length];
                 int i = 0;
-                if (toHigher)
-                    ToHigher(ref array, root, ref i);
-                else
-                    ToLower(ref array, root, ref i);
+                if (_length != 0)
+                    if (toHigher)
+                        ToHigher(ref array, root, ref i);
+                    else
+                        ToLower(ref array, root, ref i);
                 return array;
             }
 
             public void ConvertToBalanced()
             {
-                T[] arr = ConvertToArray();
-                bool[] boolArr = new bool[arr.Length];
+                BalancedFromArray(ConvertToArray());
+            }
 
-                void f(int low, int high, Point<T> prevPoint)
+            private void BalancedFromArray(T[] arr)
+            {
+                //bool[] boolArr = new bool[arr.Length];
+                void f(int low, int high, Point<T> prevPoint, bool left)
                 {
-                    if (low <= high)
+                    if (low < high)
                     {
+                        if (left)
+                        {
+                            prevPoint.left = new Point<T>(arr[(high - low + 1) / 2 + low]);
+                            f(low, (high - low + 1) / 2 + low - 1, prevPoint.left, true);
+                            f((high - low + 1) / 2 + low + 1, high, prevPoint.left, false);
+                        }
+                        else
+                        {
+                            prevPoint.right = new Point<T>(arr[(high - low + 1) / 2 + low]);
+                            f(low, (high - low + 1) / 2 + low - 1, prevPoint.right, true);
+                            f((high - low + 1) / 2 + low + 1, high, prevPoint.right, false);
+                        }
+                    }
+                    else if (low == high)
+                    {
+                        if (left)
+                        {
+                            prevPoint.left = new Point<T>(arr[low]);
+                        }
+                        else
+                        {
+                            prevPoint.right = new Point<T>(arr[low]);
+                        }
                     }
                     else
                     {
                         Debug.Print($"{low} {high}");
                     }
                 }
-                root = new Point<T>(arr[arr.Length / 2]);
+
+                if (_length != 0)
+                {
+                    root = new Point<T>(arr[arr.Length / 2]);
+                    f(0, arr.Length / 2 - 1, root, true);
+                    f(arr.Length / 2 + 1, arr.Length - 1, root, false);
+                }
             }
 
-            public void Remove(T obj)
+            public void Remove(int value)
             {
+                T[] arr = ConvertToArray().Where(x => func(x) != value).ToArray(); ;
+                if (arr.Length == 0)
+                {
+                    root.data = baseelement;
+                    _length = 0;
+                }
+                else
+                {
+                    _length = arr.Length;
+                    BalancedFromArray(arr);
+                }
             }
 
             public T min()
