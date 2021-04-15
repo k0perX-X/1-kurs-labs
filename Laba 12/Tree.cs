@@ -1,19 +1,18 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
 
 namespace Laba_12
 {
     public partial class Task1
     {
-        private unsafe class Tree<T>
+        public unsafe class Tree<T>
         {
             private class Point<TT>
             {
                 public TT data;
 
-                public Point<TT> left, //адрес следующего элемента
-                    right; //адрес предыдущего элемента
+                public Point<TT> left,
+                                 right;
 
                 public Point(TT d)
                 {
@@ -37,9 +36,7 @@ namespace Laba_12
 
             private delegate*<T, int> func;
 
-            private static T baseelement = default;
-
-            private Point<T> root = new Point<T>(baseelement);
+            private Point<T> root = new Point<T>(default(T));
 
             private int _length;
 
@@ -58,9 +55,9 @@ namespace Laba_12
 
             public void Add(T obj)
             {
-                if ((object)root.data == (object)baseelement)
+                if (_length == 0)
                 {
-                    root.data = obj;
+                    root = new Point<T>(obj);
                 }
                 else
                 {
@@ -98,13 +95,12 @@ namespace Laba_12
                 {
                     if (point.left != null)
                         f(point.left, route + "L");
-                    //Debug.Print(route + ": " + point);
                     s += route + ": " + point;
                     if (point.right != null)
                         f(point.right, route + "R");
                 }
 
-                if ((object)root.data == (object)baseelement)
+                if (_length == 0)
                 {
                     return "";
                 }
@@ -112,33 +108,21 @@ namespace Laba_12
                 return s;
             }
 
-            public T[] ConvertToArray(bool toHigher = true)
+            public T[] ConvertToArray()
             {
                 void ToHigher(ref T[] arr, Point<T> point, ref int i)
                 {
-                    i++;
                     if (point.left != null)
                         ToHigher(ref arr, point.left, ref i);
                     arr[i] = point.data;
-                    if (point.right != null)
-                        ToHigher(ref arr, point.right, ref i);
-                }
-                void ToLower(ref T[] arr, Point<T> point, ref int i)
-                {
                     i++;
                     if (point.right != null)
                         ToHigher(ref arr, point.right, ref i);
-                    arr[i] = point.data;
-                    if (point.left != null)
-                        ToHigher(ref arr, point.left, ref i);
                 }
                 T[] array = new T[_length];
                 int i = 0;
                 if (_length != 0)
-                    if (toHigher)
-                        ToHigher(ref array, root, ref i);
-                    else
-                        ToLower(ref array, root, ref i);
+                    ToHigher(ref array, root, ref i);
                 return array;
             }
 
@@ -149,7 +133,6 @@ namespace Laba_12
 
             private void BalancedFromArray(T[] arr)
             {
-                //bool[] boolArr = new bool[arr.Length];
                 void f(int low, int high, Point<T> prevPoint, bool left)
                 {
                     if (low < high)
@@ -178,10 +161,6 @@ namespace Laba_12
                             prevPoint.right = new Point<T>(arr[low]);
                         }
                     }
-                    else
-                    {
-                        Debug.Print($"{low} {high}");
-                    }
                 }
 
                 if (_length != 0)
@@ -197,7 +176,7 @@ namespace Laba_12
                 T[] arr = ConvertToArray().Where(x => func(x) != value).ToArray(); ;
                 if (arr.Length == 0)
                 {
-                    root.data = baseelement;
+                    root.data = default;
                     _length = 0;
                 }
                 else

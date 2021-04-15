@@ -4,7 +4,7 @@ namespace Laba_12
 {
     public partial class Task1
     {
-        private unsafe class UnidirectionalList<T>
+        public unsafe class UnidirectionalList<T>
         {
             private class Point<TT>
             {
@@ -35,35 +35,46 @@ namespace Laba_12
                 }
             }
 
-            private static T baseelement = default;
+            private int _length;
 
-            private Point<T> point = new Point<T>(baseelement);
+            public int Length
+            {
+                get
+                {
+                    return _length;
+                }
+            }
+
+            private Point<T> point = new Point<T>();
 
             public void Add(T data)
             {
-                if ((object)point.data == (object)baseelement)
+                if (_length == 0)
                 {
                     point.data = data;
+                    _length = 1;
                 }
                 else if (point.next == null)
                 {
                     point.next = new Point<T>(data);
+                    _length = 2;
                 }
                 else
                 {
-                    Point<T> nextpoint = point.next;
-                    while (nextpoint.next != null)
+                    Point<T> nextPoint = point.next;
+                    while (nextPoint.next != null)
                     {
-                        nextpoint = nextpoint.next;
+                        nextPoint = nextPoint.next;
                     }
 
-                    nextpoint.next = new Point<T>(data);
+                    _length++;
+                    nextPoint.next = new Point<T>(data);
                 }
             }
 
             public void Remove(int index)
             {
-                if ((object)point.data == (object)baseelement)
+                if (_length == 0)
                 {
                     throw new IndexOutOfRangeException();
                 }
@@ -71,7 +82,8 @@ namespace Laba_12
                 {
                     if (index == 0)
                     {
-                        point.data = baseelement;
+                        point.data = default;
+                        _length = 0;
                     }
                     else
                     {
@@ -83,16 +95,19 @@ namespace Laba_12
                     if (index == 0)
                     {
                         point = new Point<T>(point.next.data, point.next.next);
+                        _length--;
                     }
                     else if (index == 1)
                     {
                         if (point.next.next == null)
                         {
                             point.next = null;
+                            _length--;
                         }
                         else
                         {
                             point.next = new Point<T>(point.next.next.data, point.next.next.next);
+                            _length--;
                         }
                     }
                     else
@@ -109,6 +124,7 @@ namespace Laba_12
                             backPoint.next = nextPoint.next;
                             nextPoint.next = null;
                             nextPoint.data = default;
+                            _length--;
                         }
                         catch (System.NullReferenceException)
                         {
@@ -120,7 +136,7 @@ namespace Laba_12
 
             public int Find<TT>(TT value, delegate*<T, TT> func)
             {
-                if ((object)point.data == (object)baseelement)
+                if (_length == 0)
                 {
                     return -1;
                 }
@@ -143,7 +159,7 @@ namespace Laba_12
                     }
                     Point<T> nextPoint = point.next;
                     int i = 1;
-                    while (func(nextPoint.data).Equals(value))
+                    while (!func(nextPoint.data).Equals(value))
                     {
                         if (nextPoint.next == null)
                             return -1;
@@ -158,7 +174,7 @@ namespace Laba_12
             {
                 string s = "";
 
-                if ((object)point.data == (object)baseelement)
+                if (_length == 0)
                 {
                     return "";
                 }

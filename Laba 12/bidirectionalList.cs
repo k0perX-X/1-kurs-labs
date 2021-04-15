@@ -4,7 +4,7 @@ namespace Laba_12
 {
     public partial class Task1
     {
-        private unsafe class BidirectionalList<T>
+        public unsafe class BidirectionalList<T>
         {
             private class Point<TT>
             {
@@ -57,13 +57,11 @@ namespace Laba_12
                 }
             }
 
-            private static T baseelement = default;
-
-            private Point<T> point = new Point<T>(baseelement);
+            private Point<T> point = new Point<T>();
 
             public void Add(T data)
             {
-                if ((object)point.data == (object)baseelement)
+                if (_length == 0)
                 {
                     _length++;
                     point.data = data;
@@ -75,24 +73,26 @@ namespace Laba_12
                 }
                 else
                 {
-                    Point<T> nextpoint = point.next;
-                    while (nextpoint.next != null)
+                    Point<T> nextPoint = point.next;
+                    while (nextPoint.next != null)
                     {
-                        nextpoint = nextpoint.next;
+                        nextPoint = nextPoint.next;
                     }
 
                     _length++;
-                    nextpoint.next = new Point<T>(data, nextpoint);
+                    nextPoint.next = new Point<T>(data, nextPoint);
                 }
             }
 
             public void Add(int index, T data)
             {
                 if (index == _length)
+                {
                     this.Add(data);
+                }
                 else
                 {
-                    if ((object)point.data == (object)baseelement)
+                    if (_length == 0)
                     {
                         throw new IndexOutOfRangeException();
                     }
@@ -101,6 +101,7 @@ namespace Laba_12
                         if (index == 0)
                         {
                             point = new Point<T>(data, point, null);
+                            _length++;
                         }
                         else
                         {
@@ -109,22 +110,36 @@ namespace Laba_12
                     }
                     else
                     {
-                        Point<T> nextPoint = point.next;
-                        Point<T> backPoint = point.next;
-                        try
+                        if (index == 0)
                         {
-                            for (int j = 1; j < index; j++)
-                            {
-                                backPoint = nextPoint;
-                                nextPoint = nextPoint.next;
-                            }
-                            nextPoint.prev = new Point<T>(data, nextPoint, backPoint);
-                            backPoint.next = nextPoint.prev;
+                            point = new Point<T>(data, point, null);
                             _length++;
                         }
-                        catch (System.NullReferenceException)
+                        else if (index == 1)
                         {
-                            throw new IndexOutOfRangeException();
+                            point.next = new Point<T>(data, point.next, point);
+                            _length++;
+                        }
+                        else
+                        {
+                            Point<T> nextPoint = point.next;
+                            Point<T> backPoint = point.next;
+                            try
+                            {
+                                for (int j = 1; j < index; j++)
+                                {
+                                    backPoint = nextPoint;
+                                    nextPoint = nextPoint.next;
+                                }
+
+                                nextPoint.prev = new Point<T>(data, nextPoint, backPoint);
+                                backPoint.next = nextPoint.prev;
+                                _length++;
+                            }
+                            catch (System.NullReferenceException)
+                            {
+                                throw new IndexOutOfRangeException();
+                            }
                         }
                     }
                 }
@@ -132,7 +147,7 @@ namespace Laba_12
 
             public void Remove(int index)
             {
-                if ((object)point.data == (object)baseelement)
+                if (_length == 0)
                 {
                     throw new IndexOutOfRangeException();
                 }
@@ -141,7 +156,7 @@ namespace Laba_12
                     if (index == 0)
                     {
                         _length = 0;
-                        point.data = baseelement;
+                        point.data = default;
                     }
                     else
                     {
@@ -152,7 +167,8 @@ namespace Laba_12
                 {
                     if (index == 0)
                     {
-                        point = new Point<T>(point.next.data, point.next.next);
+                        point = point.next;
+                        point.prev = null;
                         _length--;
                     }
                     else if (index == 1)
@@ -195,7 +211,7 @@ namespace Laba_12
 
             public int Find<TT>(TT value, delegate*<T, TT> func)
             {
-                if ((object)point.data == (object)baseelement)
+                if (_length == 0)
                 {
                     return -1;
                 }
@@ -218,7 +234,7 @@ namespace Laba_12
                     }
                     Point<T> nextPoint = point.next;
                     int i = 1;
-                    while (func(nextPoint.data).Equals(value))
+                    while (!func(nextPoint.data).Equals(value))
                     {
                         if (nextPoint.next == null)
                             return -1;
@@ -233,7 +249,7 @@ namespace Laba_12
             {
                 string s = "";
 
-                if ((object)point.data == (object)baseelement)
+                if (_length == 0)
                 {
                     return "";
                 }
