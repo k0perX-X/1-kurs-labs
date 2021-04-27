@@ -11,7 +11,7 @@ namespace UnitTestsLaba12
         [TestMethod]
         public void TestToString()
         {
-            Task1.BidirectionalList<int> bidirectionalList = new Task1.BidirectionalList<int>();
+            Task.BidirectionalList<int> bidirectionalList = new Task.BidirectionalList<int>();
             Debug.Print(bidirectionalList.ToString());
             bidirectionalList.Add(1);
             Debug.Print(bidirectionalList.ToString());
@@ -23,7 +23,7 @@ namespace UnitTestsLaba12
         [TestMethod]
         public void TestAdd()
         {
-            Task1.BidirectionalList<int> bidirectionalList = new Task1.BidirectionalList<int>();
+            Task.BidirectionalList<int> bidirectionalList = new Task.BidirectionalList<int>();
             Random random = new Random();
             for (int index = 0; index < 1000; index++)
                 bidirectionalList.Add(random.Next(10000000));
@@ -35,7 +35,7 @@ namespace UnitTestsLaba12
         [TestMethod]
         public void TestAddIndex()
         {
-            Task1.BidirectionalList<int> bidirectionalList = new Task1.BidirectionalList<int>();
+            Task.BidirectionalList<int> bidirectionalList = new Task.BidirectionalList<int>();
             Random random = new Random();
             bidirectionalList.Add(0, random.Next(10000000));
             bidirectionalList.Add(0, random.Next(10000000));
@@ -49,7 +49,7 @@ namespace UnitTestsLaba12
         [TestMethod]
         public void TestRemove()
         {
-            Task1.BidirectionalList<int> bidirectionalList = new Task1.BidirectionalList<int>();
+            Task.BidirectionalList<int> bidirectionalList = new Task.BidirectionalList<int>();
             Random random = new Random();
             bidirectionalList.Add(1);
             bidirectionalList.Remove(0);
@@ -75,7 +75,7 @@ namespace UnitTestsLaba12
             {
                 return i;
             }
-            Task1.BidirectionalList<int> bidirectionalList = new Task1.BidirectionalList<int>();
+            Task.BidirectionalList<int> bidirectionalList = new Task.BidirectionalList<int>();
             Random random = new Random();
             for (int index = 0; index < 1000; index++)
                 bidirectionalList.Add(index);
@@ -92,6 +92,47 @@ namespace UnitTestsLaba12
                 throw new Exception("random " + bidirectionalList.Find<int>(x, &func));
             Debug.Print(bidirectionalList.ToString());
         }
+
+        [TestMethod]
+        public void TestEnum()
+        {
+            Task.BidirectionalList<int> bidirectionalList = new Task.BidirectionalList<int>();
+            Random random = new Random();
+            for (int index = 0; index < 1000; index++)
+                bidirectionalList.Add(random.Next(10000000));
+            string s = "";
+            foreach (int i in bidirectionalList)
+            {
+                s += i;
+            }
+            Debug.Print(s);
+        }
+
+        [TestMethod]
+        public void TestClear()
+        {
+            Task.BidirectionalList<int> bidirectionalList = new Task.BidirectionalList<int>();
+            Random random = new Random();
+            for (int index = 0; index < 1000; index++)
+                bidirectionalList.Add(random.Next(10000000));
+            bidirectionalList.Clear();
+            Debug.Print(bidirectionalList.ToString());
+            bidirectionalList.Add(1);
+            bidirectionalList.Remove(0);
+            bidirectionalList.Add(1);
+            bidirectionalList.Add(1);
+            bidirectionalList.Remove(1);
+            bidirectionalList.Remove(0);
+            for (int index = 0; index < 1000; index++)
+                bidirectionalList.Add(random.Next(10000000));
+            bidirectionalList.Remove(0);
+            bidirectionalList.Remove(1);
+            bidirectionalList.Remove(random.Next(998));
+            bidirectionalList.Remove(996);
+            if (bidirectionalList.Length != 996)
+                throw new Exception("Length");
+            Debug.Print(bidirectionalList.ToString());
+        }
     }
 
     [TestClass]
@@ -100,7 +141,7 @@ namespace UnitTestsLaba12
         [TestMethod]
         public void TestToString()
         {
-            Task1.UnidirectionalList<int> unidirectionalList = new Task1.UnidirectionalList<int>();
+            Task.UnidirectionalList<int> unidirectionalList = new Task.UnidirectionalList<int>();
             Debug.Print(unidirectionalList.ToString());
             unidirectionalList.Add(1);
             Debug.Print(unidirectionalList.ToString());
@@ -112,7 +153,7 @@ namespace UnitTestsLaba12
         [TestMethod]
         public void TestAdd()
         {
-            Task1.UnidirectionalList<int> unidirectionalList = new Task1.UnidirectionalList<int>();
+            Task.UnidirectionalList<int> unidirectionalList = new Task.UnidirectionalList<int>();
             Random random = new Random();
             for (int index = 0; index < 1000; index++)
                 unidirectionalList.Add(random.Next(10000000));
@@ -124,7 +165,7 @@ namespace UnitTestsLaba12
         [TestMethod]
         public void TestRemove()
         {
-            Task1.UnidirectionalList<int> unidirectionalList = new Task1.UnidirectionalList<int>();
+            Task.UnidirectionalList<int> unidirectionalList = new Task.UnidirectionalList<int>();
             Random random = new Random();
             unidirectionalList.Add(1);
             unidirectionalList.Remove(0);
@@ -150,7 +191,7 @@ namespace UnitTestsLaba12
             {
                 return i;
             }
-            Task1.UnidirectionalList<int> unidirectionalList = new Task1.UnidirectionalList<int>();
+            Task.UnidirectionalList<int> unidirectionalList = new Task.UnidirectionalList<int>();
             Random random = new Random();
             for (int index = 0; index < 1000; index++)
                 unidirectionalList.Add(index);
@@ -167,10 +208,51 @@ namespace UnitTestsLaba12
                 throw new Exception("random " + unidirectionalList.Find<int>(x, &func));
             Debug.Print(unidirectionalList.ToString());
         }
+
+        [TestMethod]
+        public void TestEnum()
+        {
+            Task.UnidirectionalList<int> unidirectionalList = new Task.UnidirectionalList<int>();
+            Random random = new Random();
+            for (int index = 0; index < 1000; index++)
+                unidirectionalList.Add(random.Next(10000000));
+            string s = "";
+            foreach (int i in unidirectionalList)
+            {
+                s += i;
+            }
+            Debug.Print(s);
+        }
+
+        [TestMethod]
+        public void TestClear()
+        {
+            Task.UnidirectionalList<int> unidirectionalList = new Task.UnidirectionalList<int>();
+            Random random = new Random();
+            for (int index = 0; index < 1000; index++)
+                unidirectionalList.Add(random.Next(10000000));
+            unidirectionalList.Clear();
+            Debug.Print(unidirectionalList.ToString());
+            unidirectionalList.Add(1);
+            unidirectionalList.Remove(0);
+            unidirectionalList.Add(1);
+            unidirectionalList.Add(1);
+            unidirectionalList.Remove(1);
+            unidirectionalList.Remove(0);
+            for (int index = 0; index < 1000; index++)
+                unidirectionalList.Add(random.Next(10000000));
+            unidirectionalList.Remove(0);
+            unidirectionalList.Remove(1);
+            unidirectionalList.Remove(random.Next(998));
+            unidirectionalList.Remove(996);
+            if (unidirectionalList.Length != 996)
+                throw new Exception("Length");
+            Debug.Print(unidirectionalList.ToString());
+        }
     }
 
     [TestClass]
-    public unsafe class Tree
+    public class Tree
     {
         private static int func(int i)
         {
@@ -180,7 +262,7 @@ namespace UnitTestsLaba12
         [TestMethod]
         public void TestToString()
         {
-            Task1.Tree<int> tree = new Task1.Tree<int>(&func);
+            Task.Tree<int> tree = new Task.Tree<int>(func);
             Debug.Print(tree.ToString());
             tree.Add(1);
             Debug.Print(tree.ToString());
@@ -192,7 +274,7 @@ namespace UnitTestsLaba12
         [TestMethod]
         public void TestAdd()
         {
-            Task1.Tree<int> tree = new Task1.Tree<int>(&func);
+            Task.Tree<int> tree = new Task.Tree<int>(func);
             Random random = new Random();
             for (int index = 0; index < 1000; index++)
                 tree.Add(random.Next(10000000));
@@ -204,7 +286,7 @@ namespace UnitTestsLaba12
         [TestMethod]
         public void TestRemove()
         {
-            Task1.Tree<int> tree = new Task1.Tree<int>(&func);
+            Task.Tree<int> tree = new Task.Tree<int>(func);
             Random random = new Random();
             tree.Add(1);
             tree.Remove(1);
@@ -223,6 +305,69 @@ namespace UnitTestsLaba12
             if (tree.Length != 996)
                 throw new Exception("Length 2");
             Debug.Print(tree.ToString());
+        }
+
+        [TestMethod]
+        public void TestClear()
+        {
+            Task.Tree<int> tree = new Task.Tree<int>(func);
+            Random random = new Random();
+            for (int index = 0; index < 1000; index++)
+                tree.Add(random.Next(10000000));
+            tree.Clear();
+            tree.Add(1);
+            tree.Remove(1);
+            tree.Add(1);
+            tree.Add(1);
+            tree.Remove(1);
+            tree.Remove(1);
+            if (tree.Length != 0)
+                throw new Exception("Length 1");
+            for (int index = 0; index < 1000; index++)
+                tree.Add(index);
+            tree.Remove(0);
+            tree.Remove(1);
+            tree.Remove(999);
+            tree.Remove(random.Next(2, 998));
+            if (tree.Length != 996)
+                throw new Exception("Length 2");
+            Debug.Print(tree.ToString());
+        }
+
+        [TestMethod]
+        public void TestIndex()
+        {
+            Task.Tree<int> tree = new Task.Tree<int>(func);
+            Random random = new Random();
+            for (int index = 0; index < 1000; index++)
+                tree.Add(random.Next(10000000));
+            string s = "";
+            for (int index = 0; index < 1000; index++)
+            {
+                s += tree[index];
+            }
+            Debug.Print(s);
+        }
+
+        [TestMethod]
+        public void TestConvertToBalanced()
+        {
+            Task.Tree<int> tree = new Task.Tree<int>(func);
+            for (int index = 0; index < 1000; index++)
+                tree.Add(index);
+            tree.ConvertToBalanced();
+        }
+
+        [TestMethod]
+        public void TestFind()
+        {
+            Task.Tree<int> tree = new Task.Tree<int>(func);
+            for (int index = 0; index < 1000; index++)
+                tree.Add(index);
+            tree.ConvertToBalanced();
+            for (int index = 0; index < 1000; index++)
+                if (tree.Find(index) != index)
+                    throw new Exception(index.ToString());
         }
     }
 }

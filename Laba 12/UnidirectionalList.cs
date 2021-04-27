@@ -1,12 +1,41 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Laba_12
 {
-    public partial class Task1
+    public partial class Task
     {
-        public unsafe class UnidirectionalList<T>
+        public unsafe class UnidirectionalList<T> : ICloneable, IEnumerable<T>, IEnumerator<T>
         {
-            private class Point<TT>
+            public UnidirectionalList()
+            {
+                Reset();
+            }
+
+            public UnidirectionalList(int capacity)
+            {
+                Reset();
+                for (int i = 0; i < capacity; i++)
+                    Add(default(T));
+            }
+
+            public UnidirectionalList(UnidirectionalList<T> unidirectionalList)
+            {
+                Reset();
+                foreach (T data in unidirectionalList)
+                {
+                    Add(data);
+                }
+            }
+
+            public UnidirectionalList(Point<T> startPoint)
+            {
+                Reset();
+                point = startPoint;
+            }
+
+            public class Point<TT>
             {
                 public TT data; //информационное поле
                 public Point<TT> next; //адресное поле
@@ -53,11 +82,13 @@ namespace Laba_12
                 {
                     point.data = data;
                     _length = 1;
+                    Reset();
                 }
                 else if (point.next == null)
                 {
                     point.next = new Point<T>(data);
                     _length = 2;
+                    Reset();
                 }
                 else
                 {
@@ -66,8 +97,8 @@ namespace Laba_12
                     {
                         nextPoint = nextPoint.next;
                     }
-
                     _length++;
+                    Reset();
                     nextPoint.next = new Point<T>(data);
                 }
             }
@@ -84,6 +115,7 @@ namespace Laba_12
                     {
                         point.data = default;
                         _length = 0;
+                        Reset();
                     }
                     else
                     {
@@ -96,6 +128,7 @@ namespace Laba_12
                     {
                         point = new Point<T>(point.next.data, point.next.next);
                         _length--;
+                        Reset();
                     }
                     else if (index == 1)
                     {
@@ -103,11 +136,13 @@ namespace Laba_12
                         {
                             point.next = null;
                             _length--;
+                            Reset();
                         }
                         else
                         {
                             point.next = new Point<T>(point.next.next.data, point.next.next.next);
                             _length--;
+                            Reset();
                         }
                     }
                     else
@@ -195,6 +230,82 @@ namespace Laba_12
                     s += $"{i++}.  " + nextpoint.ToString();
                     return s;
                 }
+            }
+
+            private Point<T> _current;
+
+            public object Current
+            {
+                get
+                {
+                    return _current.data;
+                }
+            }
+
+            T IEnumerator<T>.Current
+            {
+                get
+                {
+                    return _current.data;
+                }
+            }
+
+            public void Reset()
+            {
+                _current = point;
+            }
+
+            public bool MoveNext()
+            {
+                if (_current.next == null)
+                {
+                    Reset();
+                    return false;
+                }
+                else
+                {
+                    _current = _current.next;
+                    return true;
+                }
+            }
+
+            public object Clone()
+            {
+                return new UnidirectionalList<T>(point);
+            }
+
+            public UnidirectionalList<T> Copy()
+            {
+                return new UnidirectionalList<T>(this);
+            }
+
+            public IEnumerator<T> GetEnumerator()
+            {
+                if (_length == 0)
+                    yield break;
+                Point<T> current = point;
+                while (current != null)
+                {
+                    yield return current.data;
+                    current = current.next;
+                }
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return GetEnumerator();
+            }
+
+            public void Dispose()
+            {
+            }
+
+            public void Clear()
+            {
+                point = new Point<T>();
+                _length = 0;
+                Reset();
+                GC.Collect();
             }
         }
     }

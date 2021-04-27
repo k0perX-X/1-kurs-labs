@@ -1,12 +1,41 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Laba_12
 {
-    public partial class Task1
+    public partial class Task
     {
-        public unsafe class BidirectionalList<T>
+        public unsafe class BidirectionalList<T> : ICloneable, IEnumerable<T>, IEnumerator<T>
         {
-            private class Point<TT>
+            public BidirectionalList()
+            {
+                Reset();
+            }
+
+            public BidirectionalList(int capacity)
+            {
+                Reset();
+                for (int i = 0; i < capacity; i++)
+                    Add(default(T));
+            }
+
+            public BidirectionalList(BidirectionalList<T> unidirectionalList)
+            {
+                Reset();
+                foreach (T data in unidirectionalList)
+                {
+                    Add(data);
+                }
+            }
+
+            public BidirectionalList(Point<T> startPoint)
+            {
+                Reset();
+                point = startPoint;
+            }
+
+            public class Point<TT>
             {
                 public TT data;
 
@@ -270,6 +299,82 @@ namespace Laba_12
                     s += $"{i++}.  " + nextpoint.ToString();
                     return s;
                 }
+            }
+
+            public object Clone()
+            {
+                return new BidirectionalList<T>(point);
+            }
+
+            private Point<T> _current;
+
+            public object Current
+            {
+                get
+                {
+                    return _current.data;
+                }
+            }
+
+            T IEnumerator<T>.Current
+            {
+                get
+                {
+                    return _current.data;
+                }
+            }
+
+            public void Reset()
+            {
+                _current = point;
+            }
+
+            public bool MoveNext()
+            {
+                if (_current.next == null)
+                {
+                    Reset();
+                    return false;
+                }
+                else
+                {
+                    _current = _current.next;
+                    return true;
+                }
+            }
+
+            public BidirectionalList<T> Copy()
+            {
+                return new BidirectionalList<T>(this);
+            }
+
+            public IEnumerator<T> GetEnumerator()
+            {
+                if (_length == 0)
+                    yield break;
+                Point<T> current = point;
+                while (current != null)
+                {
+                    yield return current.data;
+                    current = current.next;
+                }
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return GetEnumerator();
+            }
+
+            public void Dispose()
+            {
+            }
+
+            public void Clear()
+            {
+                point = new Point<T>();
+                _length = 0;
+                Reset();
+                GC.Collect();
             }
         }
     }

@@ -4,7 +4,7 @@ using Laba_10;
 
 namespace Laba_12
 {
-    public unsafe partial class Task1
+    public unsafe partial class Task
     {
         private static Vehicle vehicle = new Vehicle();
         private static Car car = new Car();
@@ -19,9 +19,9 @@ namespace Laba_12
             return obj.PassengerCapacity;
         }
 
-        private Tree<Vehicle> tree = new Tree<Vehicle>(&TreeFunc);
+        private Tree<Vehicle> tree = new Tree<Vehicle>(TreeFunc);
 
-        private bool Menu()
+        private bool MenuTask1()
         {
             try
             {
@@ -209,8 +209,7 @@ namespace Laba_12
                         Console.SetCursorPosition(0, Console.CursorTop + Console.WindowHeight + 2);
                         Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
                         {
-                            unidirectionalList = new UnidirectionalList<Vehicle>();
-                            GC.Collect();
+                            unidirectionalList.Clear();
                         }
                         return true;
 
@@ -370,8 +369,7 @@ namespace Laba_12
                         Console.SetCursorPosition(0, Console.CursorTop + Console.WindowHeight + 2);
                         Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
                         {
-                            bidirectionalList = new BidirectionalList<Vehicle>();
-                            GC.Collect();
+                            bidirectionalList.Clear();
                         }
                         return true;
 
@@ -382,7 +380,7 @@ namespace Laba_12
                         Console.SetCursorPosition(0, Console.CursorTop + Console.WindowHeight + 2);
                         Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
                         {
-                            tree = new Tree<Vehicle>(&TreeFunc);
+                            tree = new Tree<Vehicle>(TreeFunc);
                             Console.Write("Введите количество элементов: ");
                             int x;
                             Random random = new Random();
@@ -485,8 +483,8 @@ namespace Laba_12
                         Console.SetCursorPosition(0, Console.CursorTop + Console.WindowHeight + 2);
                         Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
                         {
-                            Console.WriteLine("Минимальное значение:\n" + tree.min());
-                            Console.WriteLine("Максимальное значение:\n" + tree.max());
+                            Console.WriteLine("Минимальное значение:\n" + tree.Min());
+                            Console.WriteLine("Максимальное значение:\n" + tree.Max());
                         }
                         return true;
 
@@ -497,12 +495,13 @@ namespace Laba_12
                         Console.SetCursorPosition(0, Console.CursorTop + Console.WindowHeight + 2);
                         Console.SetCursorPosition(0, Console.CursorTop - Console.WindowHeight);
                         {
-                            tree = new Tree<Vehicle>(&TreeFunc);
-                            GC.Collect();
+                            tree.Clear();
                         }
                         return true;
 
                     case 20:
+                        Console.Write("Нажмите любую клавишу для выхода...");
+                        Console.ReadKey();
                         return false;
 
                     default:
@@ -618,9 +617,9 @@ namespace Laba_12
             }
         }
 
-        public void Run()
+        public void RunTask1()
         {
-            while (Menu()) { }
+            while (MenuTask1()) { }
         }
     }
 }

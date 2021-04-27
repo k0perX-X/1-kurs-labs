@@ -1,13 +1,50 @@
-﻿using System.Diagnostics;
+﻿using System;
 using System.Linq;
 
 namespace Laba_12
 {
-    public partial class Task1
+    public partial class Task
     {
-        public unsafe class Tree<T>
+        public class Tree<T> : ICloneable
         {
-            private class Point<TT>
+            public T this[int index]
+            {
+                get
+                {
+                    return this.ToArray()[index];
+                }
+            }
+
+            public Tree(ToInt func)
+            {
+                this.func = func;
+            }
+
+            public Tree(ToInt func, int capacity)
+            {
+                this.func = func;
+                for (int i = 0; i < capacity; i++)
+                    Add(default(T));
+            }
+
+            public Tree(ToInt func, Tree<T> tree)
+            {
+                this.func = func;
+                foreach (T data in tree.ToArray())
+                {
+                    Add(data);
+                }
+            }
+
+            public Tree(ToInt func, Point<T> root)
+            {
+                this.func = func;
+                this.root = root;
+            }
+
+            public delegate int ToInt(T tValue);
+
+            public class Point<TT>
             {
                 public TT data;
 
@@ -34,7 +71,7 @@ namespace Laba_12
                 }
             }
 
-            private delegate*<T, int> func;
+            private ToInt func;
 
             private Point<T> root = new Point<T>(default(T));
 
@@ -46,11 +83,6 @@ namespace Laba_12
                 {
                     return _length;
                 }
-            }
-
-            public Tree(delegate*<T, int> func)
-            {
-                this.func = func;
             }
 
             public void Add(T obj)
@@ -108,7 +140,7 @@ namespace Laba_12
                 return s;
             }
 
-            public T[] ConvertToArray()
+            public T[] ToArray()
             {
                 void ToHigher(ref T[] arr, Point<T> point, ref int i)
                 {
@@ -128,7 +160,7 @@ namespace Laba_12
 
             public void ConvertToBalanced()
             {
-                BalancedFromArray(ConvertToArray());
+                BalancedFromArray(ToArray());
             }
 
             private void BalancedFromArray(T[] arr)
@@ -173,7 +205,7 @@ namespace Laba_12
 
             public void Remove(int value)
             {
-                T[] arr = ConvertToArray().Where(x => func(x) != value).ToArray(); ;
+                T[] arr = ToArray().Where(x => func(x) != value).ToArray(); ;
                 if (arr.Length == 0)
                 {
                     root.data = default;
@@ -186,7 +218,26 @@ namespace Laba_12
                 }
             }
 
-            public T min()
+            public T Find(int value)
+            {
+                Point<T> point = root;
+                while (func(point.data) != value)
+                {
+                    if (func(point.data) > value)
+                        if (point.left != null)
+                            point = point.left;
+                        else
+                            throw new ArgumentException();
+                    else
+                        if (point.right != null)
+                        point = point.right;
+                    else
+                        throw new ArgumentException();
+                }
+                return point.data;
+            }
+
+            public T Min()
             {
                 Point<T> nextPoint = root;
                 while (nextPoint.left != null)
@@ -194,12 +245,29 @@ namespace Laba_12
                 return nextPoint.data;
             }
 
-            public T max()
+            public T Max()
             {
                 Point<T> nextPoint = root;
                 while (nextPoint.right != null)
                     nextPoint = nextPoint.right;
                 return nextPoint.data;
+            }
+
+            public object Clone()
+            {
+                return new Tree<T>(func, root);
+            }
+
+            public Tree<T> Copy()
+            {
+                return new Tree<T>(func, this);
+            }
+
+            public void Clear()
+            {
+                root = new Point<T>(default);
+                _length = 0;
+                GC.Collect();
             }
         }
     }
