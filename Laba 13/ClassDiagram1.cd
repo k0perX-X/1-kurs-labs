@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Laba_13.Program">
+    <Position X="4" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Laba_12.Task">
+    <Position X="5.75" Y="1.5" Width="3.75" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="Laba_12.Task.BidirectionalList&lt;T&gt;" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Class Name="Laba_12.Task.CollectionHandlerEventArgs" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Class Name="Laba_12.Task.Tree&lt;T&gt;">
+        <Compartments>
+          <Compartment Name="Nested Types" Collapsed="false" />
+        </Compartments>
+        <NestedTypes>
+          <Class Name="Laba_12.Task.Tree&lt;T&gt;.CollectionHandler">
+            <TypeIdentifier />
+          </Class>
+          <Class Name="Laba_12.Task.Tree&lt;T&gt;.StandardDelegate">
+            <TypeIdentifier />
+          </Class>
+          <Class Name="Laba_12.Task.Tree&lt;T&gt;.ToInt">
+            <TypeIdentifier />
+          </Class>
+          <Class Name="Laba_12.Task.Tree&lt;T&gt;.Point&lt;TT&gt;">
+            <TypeIdentifier />
+          </Class>
+        </NestedTypes>
+        <TypeIdentifier />
+      </Class>
+      <Class Name="Laba_12.Task.UnidirectionalList&lt;T&gt;" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Laba_12.Journal">
+    <Position X="1.75" Y="1.5" Width="2" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="Laba_12.Journal.JournalEntry">
+        <TypeIdentifier />
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -5,6 +5,25 @@ namespace Laba_12
 {
     public partial class Task
     {
+        public class CollectionHandlerEventArgs : EventArgs
+        {
+            public string NameCollection { get; set; }
+            public string TypeOfChange { get; set; }
+            public object Object { get; set; }
+
+            public CollectionHandlerEventArgs(string name, string type, object obj)
+            {
+                NameCollection = name;
+                TypeOfChange = type;
+                Object = obj;
+            }
+
+            public override string ToString()
+            {
+                return "Имя коллекции: " + NameCollection + "\nТип изменения: " + TypeOfChange + "\nОбъект: " + Object.ToString();
+            }
+        }
+
         public class Tree<T> : ICloneable
         {
             public T this[int index]
@@ -13,16 +32,45 @@ namespace Laba_12
                 {
                     return this.ToArray()[index];
                 }
+
+                set
+                {
+                    T[] mas = this.ToArray();
+                    mas[index] = value;
+                    BalancedFromArray(mas);
+                }
             }
+
+            public string Name { get; set; }
+
+            public delegate void CollectionHandler(object source, CollectionHandlerEventArgs args);
+
+            public delegate void StandardDelegate();
+
+            public event StandardDelegate DeleteEvent = () => { };
+
+            public event StandardDelegate AddEvent = () => { };
+
+            public event StandardDelegate ClearEvent = () => { };
+
+            public event StandardDelegate BalanceEvent = () => { };
+
+            public event CollectionHandler CollectionCountChanged =
+                (object source, CollectionHandlerEventArgs args) => { };
+
+            public event CollectionHandler CollectionReferenceChanged =
+                (object source, CollectionHandlerEventArgs args) => { };
 
             public Tree(ToInt func)
             {
                 this.func = func;
+                root = new Point<T>(default(T), this);
             }
 
             public Tree(ToInt func, int capacity)
             {
                 this.func = func;
+                root = new Point<T>(default(T), this);
                 for (int i = 0; i < capacity; i++)
                     Add(default(T));
             }
@@ -30,6 +78,7 @@ namespace Laba_12
             public Tree(ToInt func, Tree<T> tree)
             {
                 this.func = func;
+                root = new Point<T>(default(T), this);
                 foreach (T data in tree.ToArray())
                 {
                     Add(data);
@@ -48,21 +97,50 @@ namespace Laba_12
             {
                 public TT data;
 
-                public Point<TT> left,
-                                 right;
+                private Point<TT> _left, _right;
 
-                public Point(TT d)
+                public Point<TT> Left
                 {
-                    data = d;
-                    left = null;
-                    right = null;
+                    get
+                    {
+                        return _left;
+                    }
+                    set
+                    {
+                        _left = value;
+                        tree.CollectionReferenceChanged(this, new CollectionHandlerEventArgs(tree.Name, "Left", this));
+                    }
                 }
 
-                public Point(TT d, Point<TT> left, Point<TT> right)
+                public Point<TT> Right
                 {
+                    get
+                    {
+                        return _right;
+                    }
+                    set
+                    {
+                        _right = value;
+                        tree.CollectionReferenceChanged(this, new CollectionHandlerEventArgs(tree.Name, "Right", this));
+                    }
+                }
+
+                private readonly Tree<TT> tree;
+
+                public Point(TT d, Tree<TT> tree)
+                {
+                    this.tree = tree;
                     data = d;
-                    this.left = left;
-                    this.right = right;
+                    Left = null;
+                    Right = null;
+                }
+
+                public Point(TT d, Tree<TT> tree, Point<TT> left, Point<TT> right)
+                {
+                    this.tree = tree;
+                    data = d;
+                    this.Left = left;
+                    this.Right = right;
                 }
 
                 public override string ToString()
@@ -73,7 +151,7 @@ namespace Laba_12
 
             private ToInt func;
 
-            private Point<T> root = new Point<T>(default(T));
+            private Point<T> root;
 
             private int _length;
 
@@ -87,9 +165,11 @@ namespace Laba_12
 
             public void Add(T obj)
             {
+                CollectionCountChanged(this, new CollectionHandlerEventArgs(Name, "Add", this));
+                AddEvent();
                 if (_length == 0)
                 {
-                    root = new Point<T>(obj);
+                    root = new Point<T>(obj, this);
                 }
                 else
                 {
@@ -99,24 +179,29 @@ namespace Laba_12
                         bolshe = true;
                     else
                         bolshe = false;
-                    while (((bolshe) && (nextPoint.right != null)) || ((!bolshe) && (nextPoint.left != null)))
+                    while (((bolshe) && (nextPoint.Right != null)) || ((!bolshe) && (nextPoint.Left != null)))
                     {
                         if (bolshe)
-                            nextPoint = nextPoint.right;
+                            nextPoint = nextPoint.Right;
                         else
-                            nextPoint = nextPoint.left;
+                            nextPoint = nextPoint.Left;
                         if (func(obj) > func(nextPoint.data))
                             bolshe = true;
                         else
                             bolshe = false;
                     }
                     if (bolshe)
-                        nextPoint.right = new Point<T>(obj);
+                        nextPoint.Right = new Point<T>(obj, this);
                     else
-                        nextPoint.left = new Point<T>(obj);
+                        nextPoint.Left = new Point<T>(obj, this);
                 }
 
                 _length++;
+            }
+
+            public void AddDefault()
+            {
+                Add(default(T));
             }
 
             public override string ToString()
@@ -125,11 +210,11 @@ namespace Laba_12
 
                 void f(Point<T> point, string route)
                 {
-                    if (point.left != null)
-                        f(point.left, route + "L");
+                    if (point.Left != null)
+                        f(point.Left, route + "L");
                     s += route + ": " + point;
-                    if (point.right != null)
-                        f(point.right, route + "R");
+                    if (point.Right != null)
+                        f(point.Right, route + "R");
                 }
 
                 if (_length == 0)
@@ -144,12 +229,12 @@ namespace Laba_12
             {
                 void ToHigher(ref T[] arr, Point<T> point, ref int i)
                 {
-                    if (point.left != null)
-                        ToHigher(ref arr, point.left, ref i);
+                    if (point.Left != null)
+                        ToHigher(ref arr, point.Left, ref i);
                     arr[i] = point.data;
                     i++;
-                    if (point.right != null)
-                        ToHigher(ref arr, point.right, ref i);
+                    if (point.Right != null)
+                        ToHigher(ref arr, point.Right, ref i);
                 }
                 T[] array = new T[_length];
                 int i = 0;
@@ -165,47 +250,51 @@ namespace Laba_12
 
             private void BalancedFromArray(T[] arr)
             {
+                BalanceEvent();
                 void f(int low, int high, Point<T> prevPoint, bool left)
                 {
                     if (low < high)
                     {
                         if (left)
                         {
-                            prevPoint.left = new Point<T>(arr[(high - low + 1) / 2 + low]);
-                            f(low, (high - low + 1) / 2 + low - 1, prevPoint.left, true);
-                            f((high - low + 1) / 2 + low + 1, high, prevPoint.left, false);
+                            prevPoint.Left = new Point<T>(arr[(high - low + 1) / 2 + low], this);
+                            f(low, (high - low + 1) / 2 + low - 1, prevPoint.Left, true);
+                            f((high - low + 1) / 2 + low + 1, high, prevPoint.Left, false);
                         }
                         else
                         {
-                            prevPoint.right = new Point<T>(arr[(high - low + 1) / 2 + low]);
-                            f(low, (high - low + 1) / 2 + low - 1, prevPoint.right, true);
-                            f((high - low + 1) / 2 + low + 1, high, prevPoint.right, false);
+                            prevPoint.Right = new Point<T>(arr[(high - low + 1) / 2 + low], this);
+                            f(low, (high - low + 1) / 2 + low - 1, prevPoint.Right, true);
+                            f((high - low + 1) / 2 + low + 1, high, prevPoint.Right, false);
                         }
                     }
                     else if (low == high)
                     {
                         if (left)
                         {
-                            prevPoint.left = new Point<T>(arr[low]);
+                            prevPoint.Left = new Point<T>(arr[low], this);
                         }
                         else
                         {
-                            prevPoint.right = new Point<T>(arr[low]);
+                            prevPoint.Right = new Point<T>(arr[low], this);
                         }
                     }
                 }
 
                 if (_length != 0)
                 {
-                    root = new Point<T>(arr[arr.Length / 2]);
+                    root = new Point<T>(arr[arr.Length / 2], this);
                     f(0, arr.Length / 2 - 1, root, true);
                     f(arr.Length / 2 + 1, arr.Length - 1, root, false);
                 }
             }
 
-            public void Remove(int value)
+            public bool Remove(int value)
             {
-                T[] arr = ToArray().Where(x => func(x) != value).ToArray(); ;
+                CollectionCountChanged(this, new CollectionHandlerEventArgs(Name, "Remove", this));
+                int startLength = Length;
+                T[] arr = ToArray().Where(x => func(x) != value).ToArray();
+                DeleteEvent();
                 if (arr.Length == 0)
                 {
                     root.data = default;
@@ -216,6 +305,11 @@ namespace Laba_12
                     _length = arr.Length;
                     BalancedFromArray(arr);
                 }
+
+                if (Length == startLength)
+                    return false;
+                else
+                    return true;
             }
 
             public T Find(int value)
@@ -224,13 +318,13 @@ namespace Laba_12
                 while (func(point.data) != value)
                 {
                     if (func(point.data) > value)
-                        if (point.left != null)
-                            point = point.left;
+                        if (point.Left != null)
+                            point = point.Left;
                         else
                             throw new ArgumentException();
                     else
-                        if (point.right != null)
-                        point = point.right;
+                        if (point.Right != null)
+                        point = point.Right;
                     else
                         throw new ArgumentException();
                 }
@@ -240,16 +334,16 @@ namespace Laba_12
             public T Min()
             {
                 Point<T> nextPoint = root;
-                while (nextPoint.left != null)
-                    nextPoint = nextPoint.left;
+                while (nextPoint.Left != null)
+                    nextPoint = nextPoint.Left;
                 return nextPoint.data;
             }
 
             public T Max()
             {
                 Point<T> nextPoint = root;
-                while (nextPoint.right != null)
-                    nextPoint = nextPoint.right;
+                while (nextPoint.Right != null)
+                    nextPoint = nextPoint.Right;
                 return nextPoint.data;
             }
 
@@ -265,7 +359,9 @@ namespace Laba_12
 
             public void Clear()
             {
-                root = new Point<T>(default);
+                CollectionCountChanged(this, new CollectionHandlerEventArgs(Name, "Clear", this));
+                ClearEvent();
+                root = new Point<T>(default, this);
                 _length = 0;
                 GC.Collect();
             }

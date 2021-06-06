@@ -26,6 +26,7 @@
     <ProjectReference Include="..\Laba 10\Laba 10.csproj" />
     <ProjectReference Include="..\Laba 11\Laba 11.csproj" />
     <ProjectReference Include="..\Laba 12\Laba 12.csproj" />
+    <ProjectReference Include="..\Laba 14\Laba 14.csproj" />
     <ProjectReference Include="..\Лаба 7\Лаба 9.csproj" />
   </ItemGroup>
 </Project>

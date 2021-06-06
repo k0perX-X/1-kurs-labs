@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using Laba_10;
 
 namespace Laba_12
