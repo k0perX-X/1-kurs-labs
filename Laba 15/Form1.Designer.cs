@@ -1,7 +1,4 @@
-﻿
-using System.Diagnostics;
-
-namespace Laba_15
+﻿namespace Laba_15
 {
     partial class Form1
     {

@@ -1,12 +1,10 @@
-﻿using System;
-using CsvHelper;
-using System.Collections;
+﻿using CsvHelper;
+using CsvHelper.Configuration.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Security.Policy;
-using CsvHelper.Configuration.Attributes;
 
 namespace Laba_15
 {

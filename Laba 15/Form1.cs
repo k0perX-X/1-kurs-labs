@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Laba_15
@@ -27,8 +23,11 @@ namespace Laba_15
             LoadDataFromRecords();
         }
 
+        private Logging logging = new Logging(Logging.Level.DEBUG, "lb15.log");
+
         private void averageToolStripMenuItem_Click(object sender, EventArgs args)
         {
+            logging.INFO("averageToolStripMenuItem_Click");
             Dictionary<int, List<int>> dictionary = new();
             if (SaveTest(out var deleted, out var duplicates, true))
             {
@@ -70,6 +69,7 @@ namespace Laba_15
 
         private void negativeToolStripMenuItem_Click(object sender, EventArgs args)
         {
+            logging.INFO("negativeToolStripMenuItem_Click");
             if (SaveTest(out var deleted, out var duplicates, true))
             {
                 Dictionary<DateTime, int> dictionary = new Dictionary<DateTime, int>();
@@ -131,6 +131,7 @@ namespace Laba_15
 
         private void recoverDeletedToolStripMenuItem_Click(object sender, EventArgs args)
         {
+            logging.INFO("recoverDeletedToolStripMenuItem_Click");
             var f = new Form3(dataGridView1);
             f.ShowDialog();
         }
@@ -141,6 +142,7 @@ namespace Laba_15
 
         private void LoadDataFromRecords()
         {
+            logging.DEBUG("LoadDataFromRecords");
             dataGridView1.Rows.Clear();
             if (data.Records.Count > 0)
                 dataGridView1.Rows.Add(data.Records.Count);
@@ -165,6 +167,7 @@ namespace Laba_15
 
         private void DeleteRow(int index)
         {
+            logging.INFO($"DeleteRow {index}");
             dataGridView1.Rows[index].Visible = false;
             if (dataGridView1.Rows.Count != 1)
                 _changedWithoutSaving = true;
@@ -173,6 +176,7 @@ namespace Laba_15
 
         private void EditDayClick(int index)
         {
+            logging.DEBUG("EditDayClick");
             if (index == dataGridView1.Rows.Count - 1)
                 dataGridView1.Rows.Add();
             while (dataGridView1.Rows.Count > data.DateTimes.Count + 1)
@@ -188,6 +192,7 @@ namespace Laba_15
 
         private void ReloadIndex()
         {
+            logging.DEBUG("ReloadIndex");
             int i = 1;
             foreach (DataGridViewRow dataGridViewRow in dataGridView1.Rows)
             {
@@ -201,6 +206,7 @@ namespace Laba_15
 
         private void DataGridViewToRecords(List<int> deleted)
         {
+            logging.DEBUG("DataGridViewToRecords");
             data.Records = new List<Data.Record>();
             foreach (DataGridViewRow dataGridViewRow in dataGridView1.Rows)
             {
@@ -221,6 +227,7 @@ namespace Laba_15
 
         private (List<int> Days, List<int> Temperatures, List<int> Deleted, List<int> Duplicates) TestDataGridView()
         {
+            logging.DEBUG("TestDataGridView");
             List<int> days = new List<int>();
             List<int> temperatures = new List<int>();
             List<int> deleted = new List<int>();
@@ -261,6 +268,7 @@ namespace Laba_15
 
         private bool SaveTest(out List<int> deleted, out List<int> duplicates, bool duplicatesIsError = false)
         {
+            logging.DEBUG("SaveTest");
             var c = TestDataGridView();
             deleted = c.Deleted;
             duplicates = c.Duplicates;
@@ -320,6 +328,7 @@ namespace Laba_15
 
         private void newToolStripMenuItem_Click(object sender, EventArgs args)
         {
+            logging.INFO("newToolStripMenuItem_Click");
             if (_changedWithoutSaving)
                 if (MessageBox.Show("Are you sure you want to exit without saving?", "Save",
                     MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
@@ -335,10 +344,12 @@ namespace Laba_15
 
         private void openToolStripMenuItem_Click(object sender, EventArgs args)
         {
+            logging.INFO("openToolStripMenuItem_Click");
             if (_changedWithoutSaving)
                 if (MessageBox.Show("Are you sure you want to exit without saving?", "Save",
                     MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
                 {
+                    logging.DEBUG("ChangedWithoutSaving");
                     return;
                 }
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
@@ -371,6 +382,7 @@ namespace Laba_15
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs args)
         {
+            logging.INFO("saveToolStripMenuItem_Click");
             if (SaveTest(out var deleted, out var duplicates))
             {
                 DataGridViewToRecords(deleted);
@@ -389,6 +401,7 @@ namespace Laba_15
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs args)
         {
+            logging.INFO("saveAsToolStripMenuItem_Click");
             if (SaveTest(out var deleted, out var duplicates))
             {
                 DataGridViewToRecords(deleted);
@@ -411,26 +424,31 @@ namespace Laba_15
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs args)
         {
+            logging.INFO("exitToolStripMenuItem_Click");
             if (_changedWithoutSaving)
                 if (MessageBox.Show("Are you sure you want to exit without saving?", "Save",
                     MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                 {
+                    logging.DEBUG("ChangedWithoutSaving");
                     this.Close();
                 }
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            logging.INFO("Form1_FormClosing");
             if (_changedWithoutSaving)
                 if (MessageBox.Show("Are you sure you want to exit without saving?", "Save",
                     MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
                 {
+                    logging.DEBUG("ChangedWithoutSaving");
                     e.Cancel = true;
                 }
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            logging.INFO("dataGridView1_CellContentClick");
             if (e.ColumnIndex == dataGridView1.Columns["Delete"].Index && e.RowIndex < dataGridView1.Rows.Count - 1)
                 DeleteRow(e.RowIndex);
             else if (e.ColumnIndex == dataGridView1.Columns["EditDay"].Index)
@@ -439,12 +457,14 @@ namespace Laba_15
 
         private void dataGridView1_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
         {
+            logging.INFO("dataGridView1_UserDeletingRow");
             e.Cancel = true;
             DeleteRow(e.Row.Index);
         }
 
         private void dataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
+            logging.INFO("dataGridView1_RowsAdded");
             if (dataGridView1.Rows.Count != 1)
                 _changedWithoutSaving = true;
             ReloadIndex();
@@ -452,6 +472,7 @@ namespace Laba_15
 
         private void dataGridView1_CurrentCellChanged(object sender, EventArgs e)
         {
+            logging.INFO("dataGridView1_CurrentCellChanged");
             if (dataGridView1.Rows.Count != 1)
                 _changedWithoutSaving = true;
         }
